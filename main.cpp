@@ -27,31 +27,57 @@ int _tmain(int argc, TCHAR* argv[]) {
 LPTSTR tchar2cw(TCHAR c, LPTSTR* cw) {
 	switch(c) {
 		/* Alphabets */
+		case 'a':
 		case 'A': *cw = _T(". - "); break;
+		case 'B':
 		case 'B': *cw = _T("- . . . "); break;
+		case 'C':
 		case 'C': *cw = _T("- . - . "); break;
+		case 'D':
 		case 'D': *cw = _T("- . . "); break;
+		case 'e':
 		case 'E': *cw = _T(". "); break;
+		case 'f':
 		case 'F': *cw = _T(". . - . "); break;
+		case 'g':
 		case 'G': *cw = _T("- - . "); break;
+		case 'h':
 		case 'H': *cw = _T(". . . . "); break;
+		case 'i':
 		case 'I': *cw = _T(". . "); break;
+		case 'j':
 		case 'J': *cw = _T(". - - - "); break;
+		case 'k':
 		case 'K': *cw = _T("- . - "); break;
+		case 'l':
 		case 'L': *cw = _T(". - . . "); break;
+		case 'm':
 		case 'M': *cw = _T("- - "); break;
+		case 'n':
 		case 'N': *cw = _T("- . "); break;
+		case 'o':
 		case 'O': *cw = _T("- - - "); break;
+		case 'p':
 		case 'P': *cw = _T(". - - . "); break;
+		case 'q':
 		case 'Q': *cw = _T("- - . - "); break;
+		case 'r':
 		case 'R': *cw = _T(". - . "); break;
+		case 's':
 		case 'S': *cw = _T(". . . "); break;
+		case 't':
 		case 'T': *cw = _T("- "); break;
+		case 'u':
 		case 'U': *cw = _T(". . - "); break;
+		case 'v':
 		case 'V': *cw = _T(". . . - "); break;
+		case 'w':
 		case 'W': *cw = _T(". - - "); break;
+		case 'x':
 		case 'X': *cw = _T("- . . - "); break;
+		case 'y':
 		case 'Y': *cw = _T("- . - - "); break;
+		case 'z':
 		case 'Z': *cw = _T("- - . . "); break;
 
 		/* Numbers */
