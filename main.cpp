@@ -29,11 +29,11 @@ LPTSTR tchar2cw(TCHAR c, LPTSTR* cw) {
 		/* Alphabets */
 		case 'a':
 		case 'A': *cw = _T(". - "); break;
-		case 'B':
+		case 'b':
 		case 'B': *cw = _T("- . . . "); break;
-		case 'C':
+		case 'c':
 		case 'C': *cw = _T("- . - . "); break;
-		case 'D':
+		case 'd':
 		case 'D': *cw = _T("- . . "); break;
 		case 'e':
 		case 'E': *cw = _T(". "); break;
