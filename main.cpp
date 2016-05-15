@@ -93,16 +93,16 @@ LPTSTR tchar2cw(TCHAR c, LPTSTR* cw) {
 		case '0': *cw = _T("- - - - - "); break;
 
 		/* Simbols */
-		case '.': *cw = _T(". - . - . - ");
-		case ',': *cw = _T("- - . . - - ");
-		case '?': *cw = _T(". . - - . . ");
-		case '-': *cw = _T("- . . . . - ");
-		case '/': *cw = _T("- . . - . ");
-		case '@': *cw = _T(". - - . - . ");
-		case ' ': *cw = _T("   ");
+		case '.': *cw = _T(". - . - . - "); break;
+		case ',': *cw = _T("- - . . - - "); break;
+		case '?': *cw = _T(". . - - . . "); break;
+		case '-': *cw = _T("- . . . . - "); break;
+		case '/': *cw = _T("- . . - . "); break;
+		case '@': *cw = _T(". - - . - . "); break;
+		case ' ': *cw = _T("   "); break;
 
 		/* Nothing */
-		default: *cw = _T("?????"); break;
+		default: *cw = _T("?"); break;
 	}
 	return *cw;
 }
