@@ -1,20 +1,10 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include "tchar.h"
-#include "stdlib.h"
+#include "stdio.h"
 
-LPSTR tchar2cw(TCHAR c, LPSTR cw);
+LPTSTR tchar2cw(TCHAR c, LPTSTR cw);
 
-int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,
-		LPSTR lpCmdLine, int nCmdShow) {
-
-	UNREFERENCED_PARAMETER(hInstance);
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
-	UNREFERENCED_PARAMETER(nCmdShow);
-
-	INT argc = 0;
-	LPTSTR* arg = 0;
-	arg = CommandLineToArgvW(GetCommandLine(), &argc);
+int _tmain(int argc, TCHAR* argv[]) {
 
 	/* Error message */
 	if (argc <= 1) {
@@ -22,18 +12,19 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,
 		return -1;
 	}
 
+	/* string to cw code */
 	int i = 0;
-	int length = strlen(arg[1]);
-	LPCSTR cw = 0;
+	int length = (int) ::_tcslen(argv[1]); //size_t -> int
+	LPTSTR cw = 0;
 	for (i = 0; i < length; i++) {
-		tchar2cw(arg[1][i], cw);
-		printf("%c: %s\n", arg[1][c], cw);
+		tchar2cw(argv[1][i], cw);
+		_tprintf(_T("%c: %s\n"), argv[1][i], cw);
 	}
 
 	return 0;
 }
 
-LPSTR tchar2cw(TCHAR c, LPSTR cw) {
+LPTSTR tchar2cw(TCHAR c, LPTSTR cw) {
 	switch(c) {
 		/* Alphabets */
 		case 'A': cw = TEXT("・－"); break;
