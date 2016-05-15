@@ -27,56 +27,56 @@ int _tmain(int argc, TCHAR* argv[]) {
 LPTSTR tchar2cw(TCHAR c, LPTSTR* cw) {
 	switch(c) {
 		/* Alphabets */
-		case 'A': *cw = _T("・－"); break;
-		case 'B': *cw = _T("－・・・"); break;
-		case 'C': *cw = _T("－・－・"); break;
-		case 'D': *cw = _T("－・・"); break;
-		case 'E': *cw = _T("・"); break;
-		case 'F': *cw = _T("・・－・"); break;
-		case 'G': *cw = _T("－－・"); break;
-		case 'H': *cw = _T("・・・・"); break;
-		case 'I': *cw = _T("・・"); break;
-		case 'J': *cw = _T("・－－－"); break;
-		case 'K': *cw = _T("－・－"); break;
-		case 'L': *cw = _T("・－・・"); break;
-		case 'M': *cw = _T("－－"); break;
-		case 'N': *cw = _T("－・"); break;
-		case 'O': *cw = _T("－－－"); break;
-		case 'P': *cw = _T("・－－・"); break;
-		case 'Q': *cw = _T("－－・－"); break;
-		case 'R': *cw = _T("・－・"); break;
-		case 'S': *cw = _T("・・・"); break;
-		case 'T': *cw = _T("－"); break;
-		case 'U': *cw = _T("・・－"); break;
-		case 'V': *cw = _T("・・・－"); break;
-		case 'W': *cw = _T("・－－"); break;
-		case 'X': *cw = _T("－・・－"); break;
-		case 'Y': *cw = _T("－・－－"); break;
-		case 'Z': *cw = _T("－－・・"); break;
+		case 'A': *cw = _T(". - "); break;
+		case 'B': *cw = _T("- . . . "); break;
+		case 'C': *cw = _T("- . - . "); break;
+		case 'D': *cw = _T("- . . "); break;
+		case 'E': *cw = _T(". "); break;
+		case 'F': *cw = _T(". . - . "); break;
+		case 'G': *cw = _T("- - . "); break;
+		case 'H': *cw = _T(". . . . "); break;
+		case 'I': *cw = _T(". . "); break;
+		case 'J': *cw = _T(". - - - "); break;
+		case 'K': *cw = _T("- . - "); break;
+		case 'L': *cw = _T(". - . . "); break;
+		case 'M': *cw = _T("- - "); break;
+		case 'N': *cw = _T("- . "); break;
+		case 'O': *cw = _T("- - - "); break;
+		case 'P': *cw = _T(". - - . "); break;
+		case 'Q': *cw = _T("- - . - "); break;
+		case 'R': *cw = _T(". - . "); break;
+		case 'S': *cw = _T(". . . "); break;
+		case 'T': *cw = _T("- "); break;
+		case 'U': *cw = _T(". . - "); break;
+		case 'V': *cw = _T(". . . - "); break;
+		case 'W': *cw = _T(". - - "); break;
+		case 'X': *cw = _T("- . . - "); break;
+		case 'Y': *cw = _T("- . - - "); break;
+		case 'Z': *cw = _T("- - . . "); break;
 
 		/* Numbers */
-		case '1': *cw = _T("・－－－－"); break;
-		case '2': *cw = _T("・・－－－"); break;
-		case '3': *cw = _T("・・・－－"); break;
-		case '4': *cw = _T("・・・・－"); break;
-		case '5': *cw = _T("・・・・・"); break;
-		case '6': *cw = _T("－・・・・"); break;
-		case '7': *cw = _T("－－・・・"); break;
-		case '8': *cw = _T("－－－・・"); break;
-		case '9': *cw = _T("－－－－・"); break;
-		case '0': *cw = _T("－－－－－"); break;
+		case '1': *cw = _T(". - - - - "); break;
+		case '2': *cw = _T(". . - - - "); break;
+		case '3': *cw = _T(". . . - - "); break;
+		case '4': *cw = _T(". . . . - "); break;
+		case '5': *cw = _T(". . . . . "); break;
+		case '6': *cw = _T("- . . . . "); break;
+		case '7': *cw = _T("- - . . . "); break;
+		case '8': *cw = _T("- - - . . "); break;
+		case '9': *cw = _T("- - - - . "); break;
+		case '0': *cw = _T("- - - - - "); break;
 
 		/* Simbols */
-		case '.': *cw = _T("・－・－・－");
-		case ',': *cw = _T("－－・・－－");
-		case '?': *cw = _T("・・－－・・");
-		case '-': *cw = _T("－・・・・－");
-		case '/': *cw = _T("－・・－・");
-		case '@': *cw = _T("・－－・－・");
-		case ' ': *cw = _T("　　　");
+		case '.': *cw = _T(". - . - . - ");
+		case ',': *cw = _T("- - . . - - ");
+		case '?': *cw = _T(". . - - . . ");
+		case '-': *cw = _T("- . . . . - ");
+		case '/': *cw = _T("- . . - . ");
+		case '@': *cw = _T(". - - . - . ");
+		case ' ': *cw = _T("   ");
 
 		/* Nothing */
-		default: break;
+		default: *cw = _T("?????"); break;
 	}
 	return *cw;
 }
