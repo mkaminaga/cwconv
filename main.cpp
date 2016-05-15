@@ -1,4 +1,10 @@
-﻿#include <windows.h>
+﻿/**
+ * @file main.cpp
+ * @brief Morse code generator
+ * @author Mamoru Kaminaga
+ * @date 2016-05-15 12:08:31
+ * */
+#include <windows.h>
 #include "tchar.h"
 #include "stdio.h"
 
