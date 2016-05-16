@@ -1,13 +1,25 @@
 ﻿#include "common.h"
 #include "morse.h"
 
-void morseCodeToString(int element, LPTSTR morse, int count) {
+void morseCodeToString(int code, LPTSTR morse, int count) {
 	int i = 0;
 	int temp = 0;
 
+	/* Exception */
+	switch (code) {
+		case CW_CODE_SPACE:
+			// _tcscpy_s(morse, count, _T(" "));
+			return;
+		case CW_CODE_UNKNOWN:
+			// _tcscpy_s(morse, count, _T("???"));
+			return;
+		default:
+			break;
+	}
+
 	/* Adjust to left */
-	while (!(element & 0xf0000000)) {
-		element <<= 4;
+	while (!(code & 0xf0000000)) {
+		code <<= 4;
 		i++;
 		if (i > 8)
 			break; //infint loop escape
@@ -17,7 +29,7 @@ void morseCodeToString(int element, LPTSTR morse, int count) {
 	for (i = 0; i < 8; i++) {
 		if (i * 2 > count)
 			break; //out of array
-		temp = element >> (4 * (7 - i));
+		temp = code >> (4 * (7 - i));
 		temp &= 0xf;
 		switch (temp) {
 			case 1:
@@ -32,13 +44,25 @@ void morseCodeToString(int element, LPTSTR morse, int count) {
 	}
 }
 
-void morseCodeToSound(int element, int dot) {
+void morseCodeToSound(int code, int dotLen) {
 	int i = 0;
 	int temp = 0;
 
+	/* Exception */
+	switch (code) {
+		case CW_CODE_SPACE:
+			Sleep(dotLen * 3);
+			return;
+		case CW_CODE_UNKNOWN:
+			Sleep(dotLen * 3);
+			return;
+		default:
+			break;
+	}
+
 	/* Adjust to left */
-	while (!(element & 0xf0000000)) {
-		element <<= 4;
+	while (!(code & 0xf0000000)) {
+		code <<= 4;
 		i++;
 		if (i > 8)
 			break; //infint loop escape
@@ -46,14 +70,16 @@ void morseCodeToSound(int element, int dot) {
 
 	/* Conversion */
 	for (i = 0; i < 8; i++) {
-		temp = element >> (4 * (7 - i));
+		temp = code >> (4 * (7 - i));
 		temp &= 0xf;
 		switch (temp) {
 			case 1:
-				Beep(CW_BEEP_FREQ, dot);
+				Beep(CW_BEEP_FREQ, dotLen);
+				Sleep(dotLen);
 				break;
 			case 3:
-				Beep(CW_BEEP_FREQ, dot * 3);
+				Beep(CW_BEEP_FREQ, dotLen * 3);
+				Sleep(dotLen * 3);
 				break;
 			default: return;
 		}
