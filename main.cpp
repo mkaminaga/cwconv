@@ -37,11 +37,12 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	}
 #endif
 	/* Get debug cnsole */
-	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
-		AllocConsole();
+	if (!::AttachConsole(ATTACH_PARENT_PROCESS)) {
+		::AllocConsole();
 	}
 	freopen("CON", "r", stdin);
 	freopen("CON", "w", stdout);
+	_tprintf(_T("\n"));
 
 #if 0
 	_tprintf(_T("AllocConsole\n"));
@@ -51,10 +52,22 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	morseCodeToString(CW_CODE_A, morse, ARRAYSIZE(morse));
 	_tprintf(_T("%c: %s\n"), 'A', morse);
-	morseCodeToSound(CW_CODE_A, 120);
+	morseCodeToSound(CW_CODE_A, 50);
+	Sleep(150);
+
+	morseCodeToString(CW_CODE_B, morse, ARRAYSIZE(morse));
+	_tprintf(_T("%c: %s\n"), 'B', morse);
+	morseCodeToSound(CW_CODE_B, 50);
+	Sleep(150);
+
+	morseCodeToString(CW_CODE_C, morse, ARRAYSIZE(morse));
+	_tprintf(_T("%c: %s\n"), 'C', morse);
+	morseCodeToSound(CW_CODE_C, 50);
+	Sleep(150);
 
 	/* End */
 	system("PAUSE");
+	::FreeConsole();
 
 	return 0;
 }
@@ -76,6 +89,7 @@ void morseCodeToString(int element, LPTSTR morse, int count) {
 		if (i * 2 > count)
 			break; //out of array
 		temp = element >> (4 * (7 - i));
+		temp &= 0xf;
 		switch (temp) {
 			case 1: morse[i * 2] = '.'; break;
 			case 3: morse[i * 2] = '-'; break;
@@ -100,6 +114,7 @@ void morseCodeToSound(int element, int dot) {
 	/* Conversion */
 	for (i = 0; i < 8; i++) {
 		temp = element >> (4 * (7 - i));
+		temp &= 0xf;
 		switch (temp) {
 			case 1: Beep(CW_BEEP_FREQ, dot); break;
 			case 3: Beep(CW_BEEP_FREQ, dot * 3); break;

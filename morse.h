@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define CW_BEEP_FREQ	554
+#define CW_BEEP_FREQ	830
 
 #define CW_CODE_A	0x13
 #define CW_CODE_B	0x311
