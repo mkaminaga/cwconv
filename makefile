@@ -4,8 +4,8 @@
 #Input files
 OUTDIR = build
 PROGRAM = main
-SRC = main.cpp
-OBJS = $(OUTDIR)\main.obj
+SRC = main.cpp morse.cpp
+OBJS = $(OUTDIR)\main.obj $(OUTDIR)\morse.obj
 
 # describe tools
 CC = "C:\"Microsoft Visual Studio 14.0"\VC\bin\cl.exe"

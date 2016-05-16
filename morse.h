@@ -49,4 +49,5 @@
 #define CW_CODE_ATM	0x133131
 #define CW_CODE_FIX	0x11111111
 
-
+void morseCodeToString(int element, LPTSTR morse, int count);
+void morseCodeToSound(int element, int dot);
