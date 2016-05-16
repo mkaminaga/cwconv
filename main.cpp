@@ -7,108 +7,104 @@
 #include <windows.h>
 #include "tchar.h"
 #include "stdio.h"
+#include "morse.h"
 
-LPTSTR tchar2cw(TCHAR c, LPTSTR* cw);
+void morseCodeToString(int element, LPTSTR morse, int count);
+void morseCodeToSound(int element, int dot);
 
-int _tmain(int argc, TCHAR* argv[]) {
+int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+	   	LPTSTR lpCmdLine, int nCmdShow) {
 
+	UNREFERENCED_PARAMETER(hInstance);
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(nCmdShow);
+
+#if 0
 	/* Error message */
 	if (argc <= 1) {
 		MessageBox(NULL, _T("No arguments"), _T("error"), MB_OK);
 		return -1;
 	}
 
-	/* string to cw code */
+	/* string to morse code */
 	int i = 0;
 	int length = (int) ::_tcslen(argv[1]); //size_t -> int
-	LPTSTR cw = 0;
+	LPTSTR morse = 0;
 	for (i = 0; i < length; i++) {
-		tchar2cw(argv[1][i], &cw);
-		_tprintf(_T("%c: %s\n"), argv[1][i], cw);
+		tchar2morse(argv[1][i], &morse);
+		_tprintf(_T("%c: %s\n"), argv[1][i], morse);
 	}
+#endif
+	/* Get debug cnsole */
+	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
+		AllocConsole();
+	}
+	freopen("CON", "r", stdin);
+	freopen("CON", "w", stdout);
+
+#if 0
+	_tprintf(_T("AllocConsole\n"));
+#endif
+
+	TCHAR morse[32] = {0};
+
+	morseCodeToString(CW_CODE_A, morse, ARRAYSIZE(morse));
+	_tprintf(_T("%c: %s\n"), 'A', morse);
+	morseCodeToSound(CW_CODE_A, 120);
+
+	/* End */
+	system("PAUSE");
 
 	return 0;
 }
 
-LPTSTR tchar2cw(TCHAR c, LPTSTR* cw) {
-	switch(c) {
-		/* Alphabets */
-		case 'a':
-		case 'A': *cw = _T(". - "); break;
-		case 'b':
-		case 'B': *cw = _T("- . . . "); break;
-		case 'c':
-		case 'C': *cw = _T("- . - . "); break;
-		case 'd':
-		case 'D': *cw = _T("- . . "); break;
-		case 'e':
-		case 'E': *cw = _T(". "); break;
-		case 'f':
-		case 'F': *cw = _T(". . - . "); break;
-		case 'g':
-		case 'G': *cw = _T("- - . "); break;
-		case 'h':
-		case 'H': *cw = _T(". . . . "); break;
-		case 'i':
-		case 'I': *cw = _T(". . "); break;
-		case 'j':
-		case 'J': *cw = _T(". - - - "); break;
-		case 'k':
-		case 'K': *cw = _T("- . - "); break;
-		case 'l':
-		case 'L': *cw = _T(". - . . "); break;
-		case 'm':
-		case 'M': *cw = _T("- - "); break;
-		case 'n':
-		case 'N': *cw = _T("- . "); break;
-		case 'o':
-		case 'O': *cw = _T("- - - "); break;
-		case 'p':
-		case 'P': *cw = _T(". - - . "); break;
-		case 'q':
-		case 'Q': *cw = _T("- - . - "); break;
-		case 'r':
-		case 'R': *cw = _T(". - . "); break;
-		case 's':
-		case 'S': *cw = _T(". . . "); break;
-		case 't':
-		case 'T': *cw = _T("- "); break;
-		case 'u':
-		case 'U': *cw = _T(". . - "); break;
-		case 'v':
-		case 'V': *cw = _T(". . . - "); break;
-		case 'w':
-		case 'W': *cw = _T(". - - "); break;
-		case 'x':
-		case 'X': *cw = _T("- . . - "); break;
-		case 'y':
-		case 'Y': *cw = _T("- . - - "); break;
-		case 'z':
-		case 'Z': *cw = _T("- - . . "); break;
+void morseCodeToString(int element, LPTSTR morse, int count) {
+	int i = 0;
+	int temp = 0;
 
-		/* Numbers */
-		case '1': *cw = _T(". - - - - "); break;
-		case '2': *cw = _T(". . - - - "); break;
-		case '3': *cw = _T(". . . - - "); break;
-		case '4': *cw = _T(". . . . - "); break;
-		case '5': *cw = _T(". . . . . "); break;
-		case '6': *cw = _T("- . . . . "); break;
-		case '7': *cw = _T("- - . . . "); break;
-		case '8': *cw = _T("- - - . . "); break;
-		case '9': *cw = _T("- - - - . "); break;
-		case '0': *cw = _T("- - - - - "); break;
-
-		/* Simbols */
-		case '.': *cw = _T(". - . - . - "); break;
-		case ',': *cw = _T("- - . . - - "); break;
-		case '?': *cw = _T(". . - - . . "); break;
-		case '-': *cw = _T("- . . . . - "); break;
-		case '/': *cw = _T("- . . - . "); break;
-		case '@': *cw = _T(". - - . - . "); break;
-		case ' ': *cw = _T("   "); break;
-
-		/* Nothing */
-		default: *cw = _T("?"); break;
+	/* Adjust to left */
+	while (!(element & 0xf0000000)) {
+		element <<= 4;
+		i++;
+		if (i > 8)
+			break; //infint loop escape
 	}
-	return *cw;
+
+	/* Conversion */
+	for (i = 0; i < 8; i++) {
+		if (i * 2 > count)
+			break; //out of array
+		temp = element >> (4 * (7 - i));
+		switch (temp) {
+			case 1: morse[i * 2] = '.'; break;
+			case 3: morse[i * 2] = '-'; break;
+			default: return;
+		}
+		morse[(i * 2) + 1] = ' ';
+	}
+}
+
+void morseCodeToSound(int element, int dot) {
+	int i = 0;
+	int temp = 0;
+
+	/* Adjust to left */
+	while (!(element & 0xf0000000)) {
+		element <<= 4;
+		i++;
+		if (i > 8)
+			break; //infint loop escape
+	}
+
+	/* Conversion */
+	for (i = 0; i < 8; i++) {
+		temp = element >> (4 * (7 - i));
+		switch (temp) {
+			case 1: Beep(CW_BEEP_FREQ, dot); break;
+			case 3: Beep(CW_BEEP_FREQ, dot * 3); break;
+			default: return;
+		}
+		Sleep(dot);
+	}
 }
