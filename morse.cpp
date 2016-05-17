@@ -8,10 +8,10 @@ void morseCodeToString(int code, LPTSTR morse, int count) {
 	/* Exception */
 	switch (code) {
 		case CW_CODE_SPACE:
-			// _tcscpy_s(morse, count, _T(" "));
+			_tcscpy_s(morse, count, _T(" "));
 			return;
 		case CW_CODE_UNKNOWN:
-			// _tcscpy_s(morse, count, _T("???"));
+			_tcscpy_s(morse, count, _T("???"));
 			return;
 		default:
 			break;

@@ -18,10 +18,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 	UNREFERENCED_PARAMETER(nCmdShow);
 
-	/* Get command line arguments */
-	int argc = 0;
-	LPTSTR* argv = CommandLineToArgvW(GetCommandLine(), &argc);
-
 	/* Get debug cnsole */
 	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
 		AllocConsole();
@@ -30,38 +26,12 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	freopen("CON", "w", stdout);
 	_tprintf(_T("\n"));
 
-	/* Error message */
-	if (argc <= 1) {
-		_tprintf(_T("No arguments\n"));
-		system("PAUSE");
-		return -1;
-	}
-
 	/* string to morse code */
 	int i = 0;
-	int j = 0;
-	int length = 0;
-	for (i = 1; i < argc; i++) {
-		length = (int) _tcslen(argv[i]);
-		for (j = 0; j < length; j++) {
-			OutputMorse(argv[i][j]);
-		}
+	int length = (int) _tcslen(lpCmdLine);
+	for (i = 0; i < length; i++) {
+		OutputMorse(lpCmdLine[i]);
 	}
-
-#if 0
-	const int dotLen = 200;
-	TCHAR morse[32] = {0};
-
-	morseCodeToString(CW_CODE_A, morse, ARRAYSIZE(morse));
-	_tprintf(_T("%c: %s\n"), 'A', morse);
-	morseCodeToSound(CW_CODE_A, dotLen);
-	Sleep(dotLen);
-
-	morseCodeToString(CW_CODE_B, morse, ARRAYSIZE(morse));
-	_tprintf(_T("%c: %s\n"), 'B', morse);
-	morseCodeToSound(CW_CODE_B, dotLen);
-	Sleep(dotLen);
-#endif
 
 	/* End */
 	system("PAUSE");
@@ -123,7 +93,7 @@ void OutputMorse(TCHAR c) {
 }
 
 void OutputTextAndSound(int code, TCHAR c) {
-	const int dotLen = 200;
+	const int dotLen = 150;
 	TCHAR morse[32] = {0};
 
 	morseCodeToString(code, morse, ARRAYSIZE(morse));
