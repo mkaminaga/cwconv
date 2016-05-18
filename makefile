@@ -12,7 +12,8 @@ CC = "C:\"Microsoft Visual Studio 14.0"\VC\bin\cl.exe"
 LINK = "C:\"Microsoft Visual Studio 14.0"\VC\bin\link.exe"
 LIBS =	"kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib"\
 	  	"comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib"\
-	  	"uuid.lib" "odbc32.lib" "odbccp32.lib"
+	  	"uuid.lib" "odbc32.lib" "odbccp32.lib"\
+	   	winmm.lib
 RM = del
 
 CPPFLAGS = /nologo /W4 /Zi /DUNICODE /D_UNICODE /Fo"$(OUTDIR)\\" /MT

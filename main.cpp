@@ -26,12 +26,14 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	freopen("CON", "w", stdout);
 	_tprintf(_T("\n"));
 
-	/* string to morse code */
+	/* Morse out */
+	initMidiDevice();
 	int i = 0;
 	int length = (int) _tcslen(lpCmdLine);
 	for (i = 0; i < length; i++) {
 		OutputMorse(lpCmdLine[i]);
 	}
+	releaseMidiDevice();
 
 	/* End */
 	system("PAUSE");

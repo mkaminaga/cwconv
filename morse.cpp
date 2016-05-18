@@ -1,6 +1,17 @@
 ﻿#include "common.h"
 #include "morse.h"
 
+static HMIDIOUT hMidiOut;
+
+void initMidiDevice() {
+	midiOutOpen(&hMidiOut, MIDI_MAPPER, 0, 0, 0);
+}
+
+void releaseMidiDevice() {
+	midiOutReset(hMidiOut);
+	midiOutClose(hMidiOut);
+}
+
 void morseCodeToString(int code, LPTSTR morse, int count) {
 	int i = 0;
 	int temp = 0;
@@ -74,12 +85,14 @@ void morseCodeToSound(int code, int dotLen) {
 		temp &= 0xf;
 		switch (temp) {
 			case 1:
-				Beep(CW_BEEP_FREQ, dotLen);
+				midiOutShortMsg(hMidiOut, CW_FREQ_DOT); /* Start */
 				Sleep(dotLen);
+				midiOutShortMsg(hMidiOut, CW_FREQ_DOT); /* Stop */
 				break;
 			case 3:
-				Beep(CW_BEEP_FREQ, dotLen * 3);
+				midiOutShortMsg(hMidiOut, CW_FREQ_BAR); /* Start */
 				Sleep(dotLen * 3);
+				midiOutShortMsg(hMidiOut, CW_FREQ_BAR); /* Stop */
 				break;
 			default: return;
 		}
