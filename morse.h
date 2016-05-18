@@ -1,7 +1,5 @@
 ﻿#pragma once
-
-#define CW_FREQ_DOT	0x007f3c90
-#define CW_FREQ_BAR	0x007f3c90
+#include "common.h"
 
 #define CW_CODE_A	0x13
 #define CW_CODE_B	0x311
@@ -52,7 +50,27 @@
 #define CW_CODE_SPACE	0xaaaaaaaa
 #define CW_CODE_UNKNOWN	0xbbbbbbbb
 
-void initMidiDevice();
-void releaseMidiDevice();
-void morseCodeToString(int code, LPTSTR morse, int count);
-void morseCodeToSound(int code, int dot);
+class Morse {
+	private:
+		HMIDIOUT hMidiOut;
+		void __InitMidiDevice__();
+		void __ReleaseMidiDevice__();
+
+		Morse() {
+			this->__InitMidiDevice__();
+			this->dotLen = 50;
+	   	}
+		~Morse() {
+			this->__ReleaseMidiDevice__();
+	   	}
+	public:
+		static Morse& GetInstance() {
+			static Morse singleton;
+			return singleton;
+		}
+		int dotLen;
+
+		void ToString(int code, LPTSTR strOut, int strLen);
+		void ToSound(int code);
+		void OutputTerminalStringAndSound(int code, TCHAR c);
+};
