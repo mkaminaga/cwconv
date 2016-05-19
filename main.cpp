@@ -28,7 +28,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	/* Morse out */
 	Morse& morse = Morse::GetInstance();
-	morse.dotLen = 50;
+	morse.dotLen = 150;
 	int i = 0;
 	int length = (int) _tcslen(lpCmdLine);
 	for (i = 0; i < length; i++) {

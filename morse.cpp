@@ -3,6 +3,7 @@
 
 void Morse::__InitMidiDevice__() {
 	midiOutOpen(&hMidiOut, MIDI_MAPPER, 0, 0, 0);
+	midiOutShortMsg(hMidiOut, MIDIMSG(0x0c, 0x00, 0x1f, 0x00)); /* Change */
 }
 
 void Morse::__ReleaseMidiDevice__() {
@@ -35,9 +36,7 @@ void Morse::ToString(int code, LPTSTR strOut, int strLen) {
 	}
 
 	/* Conversion */
-	for (i = 0; i < 8; i++) {
-		if (i * 2 > strLen)
-			break; //out of array
+	for (i = 0; i < 8 && (i * 2) <= strLen; i++) {
 		temp = code >> (4 * (7 - i));
 		temp &= 0xf;
 		switch (temp) {
@@ -79,19 +78,16 @@ void Morse::ToSound(int code) {
 	for (i = 0; i < 8; i++) {
 		temp = code >> (4 * (7 - i));
 		temp &= 0xf;
+		if ((temp & 0xf) == 0)
+			break;
+
+		midiOutShortMsg(hMidiOut, MIDIMSG(0x09, 0x00, 0x2a, 0x7f)); /* Start */
 		switch (temp) {
-			case 1:
-				midiOutShortMsg(hMidiOut, 0x007f6190); /* Start */
-				Sleep(this->dotLen);
-				midiOutShortMsg(hMidiOut, 0x007f6180); /* Stop */
-				break;
-			case 3:
-				midiOutShortMsg(hMidiOut, 0x007f6190); /* Start */
-				Sleep(this->dotLen * 3);
-				midiOutShortMsg(hMidiOut, 0x007f6180); /* Stop */
-				break;
+			case 1: Sleep(this->dotLen); break;
+			case 3: Sleep(this->dotLen * 3); break;
 			default: break;
 		}
+		midiOutShortMsg(hMidiOut, MIDIMSG(0x09, 0x00, 0x2a, 0x00)); /* Stop */
 		Sleep(this->dotLen); //dot separator
 	}
 	Sleep(this->dotLen * 3); //charctor separator

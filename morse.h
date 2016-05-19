@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "common.h"
 
+#define MIDIMSG(status,channel,data1,data2) ((DWORD)((status<<4)|channel|(data1<<8)|(data2<<16)))
+
 #define CW_CODE_A	0x13
 #define CW_CODE_B	0x311
 #define CW_CODE_C	0x3131
