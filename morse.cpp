@@ -99,5 +99,4 @@ void Morse::OutputTerminalStringAndSound(int code, TCHAR c) {
 	this->ToString(code, strBuf, ARRAYSIZE(strBuf));
 	_tprintf(_T("%c: %s\n"), c, strBuf);
 	this->ToSound(code);
-	Sleep(this->dotLen);
 }
