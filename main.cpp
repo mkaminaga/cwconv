@@ -77,7 +77,15 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	/* Show help to console */
 	if (gHelpFlag == TRUE) {
-		_tprintf(_T("HELP\n"));
+		_tprintf(_T("program: cwconv\n"));
+		_tprintf(_T("options:"));
+		for (int i = 0; i < ARRAYSIZE(options); i++) {
+			if (i % 3 == 2) {
+				_tprintf(_T("\n\t"));
+			}
+			_tprintf(_T("<%s>"), options[i]);
+		}
+		_tprintf(_T("\n"));
 		system("PAUSE");
 		FreeConsole();
 		return 0;

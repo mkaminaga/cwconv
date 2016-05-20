@@ -3,7 +3,7 @@
 
 #Input files
 OUTDIR = build
-PROGRAM = main
+PROGRAM = cwconv
 SRC = main.cpp morse.cpp
 OBJS = $(OUTDIR)\main.obj $(OUTDIR)\morse.obj
 
