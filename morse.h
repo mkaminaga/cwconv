@@ -66,7 +66,7 @@ class Morse {
 
 		Morse() {
 			this->__InitMidiDevice__();
-			this->dotLen = 50;
+			this->dotLen = 60;
 	   	}
 		~Morse() {
 			this->__ReleaseMidiDevice__();

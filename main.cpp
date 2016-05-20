@@ -9,43 +9,100 @@
 
 void OutputMorse(TCHAR c);
 
+/* Command line option related data */
+const TCHAR options[][10] = {
+	_T("-help"),
+	_T("-nowindow"),
+	_T("-nosound"),
+	_T("-wpm"),
+};
+
+enum options {
+	HELP = 0,
+	NOWINDOW,
+	NOSOUND,
+	WPM,
+};
+
+int gHelpFlag = FALSE;
+int gNoConsoleFlag = FALSE;
+int gNoSoundFlag = FALSE;
+
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	   	LPTSTR lpCmdLine, int nCmdShow) {
-
 	UNREFERENCED_PARAMETER(hInstance);
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 	UNREFERENCED_PARAMETER(nCmdShow);
 
-	/* Get debug cnsole */
-	if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
-		AllocConsole();
-	}
-	freopen("CON", "r", stdin);
-	freopen("CON", "w", stdout);
-	_tprintf(_T("\n"));
-
-	/* Morse out */
 	Morse& morse = Morse::GetInstance();
-	morse.dotLen = 100;
-	int i = 0;
-	int length = (int) _tcslen(lpCmdLine);
-	for (i = 0; i < length; i++) {
-		OutputMorse(lpCmdLine[i]);
+	morse.dotLen = 60;
+
+	/* Get command line options */
+	if (__argc <= 1) {
+		MessageBox(NULL, _T("No arguments"), _T("cwconv"), NULL);
+		return -1;
 	}
 
-	/* End */
-	system("PAUSE");
-	FreeConsole();
+	for (int i = 1; i < __argc; i++) {
+		for (int j = 0; j < ARRAYSIZE(options); j++) {
+			if (_tcscmp(__targv[i], options[j]) == 0) {
+				switch (j) {
+					case HELP:
+						gHelpFlag = TRUE;
+						break;
+					case NOWINDOW:
+						gNoConsoleFlag = TRUE;
+						break;
+					case NOSOUND:
+						gNoSoundFlag = TRUE;
+						break;
+					case WPM:
+						morse.dotLen = _wtoi(__targv[j + 1]);
+						break;
+					default: break;
+				}
+			}
+		}
+	}
+
+	/* Initialize console */
+	if (gNoConsoleFlag == FALSE) {
+		if (!AttachConsole(ATTACH_PARENT_PROCESS)) {
+			AllocConsole();
+		}
+		freopen("CON", "r", stdin);
+		freopen("CON", "w", stdout);
+	}
+
+	/* Show help to console */
+	if (gHelpFlag == TRUE) {
+		_tprintf(_T("HELP\n"));
+		system("PAUSE");
+		FreeConsole();
+		return 0;
+	}
+
+	/* Output morse */
+	int length = (int) _tcslen(__targv[__argc - 1]);
+	for (int i = 0; i < length; i++) {
+		OutputMorse((TCHAR) __targv[__argc - 1][i]);
+	}
+
+	/* Finalize console */
+	if (gNoConsoleFlag == FALSE) {
+		system("PAUSE");
+		FreeConsole();
+	}
 
 	return 0;
 }
 
-void OutputMorse(TCHAR c) {
+void OutputMorse(TCHAR tc) {
 	Morse& morse = Morse::GetInstance();
-	int code  =0;
+	int code = 0;
 
-	switch (c) {
+	switch (tc) {
 		case _T('a'): case _T('A'): code = CW_CODE_A; break;
 		case _T('b'): case _T('B'): code = CW_CODE_B; break;
 		case _T('c'): case _T('C'): code = CW_CODE_C; break;
@@ -95,9 +152,15 @@ void OutputMorse(TCHAR c) {
 		default: code = CW_CODE_UNKNOWN; break;
 	}
 
-	/* Output console and sound */
-	TCHAR strBuf[32] = {0};
-	morse.ToString(code, strBuf, ARRAYSIZE(strBuf));
-	_tprintf(_T("%c: %s\n"), c, strBuf);
-	morse.ToSound(code);
+	/* Output console */
+	if (gNoConsoleFlag == FALSE) {
+		TCHAR strBuf[32] = {0};
+		morse.ToString(code, strBuf, ARRAYSIZE(strBuf));
+		_tprintf(_T("%c: %s\n"), tc, strBuf);
+	}
+
+	/* Output sound */
+	if (gNoSoundFlag == FALSE) {
+		morse.ToSound(code);
+	}
 }
