@@ -10,7 +10,7 @@
 void OutputMorse(TCHAR c);
 
 /* Command line option related data */
-const TCHAR options[][10] = {
+const TCHAR options[][16] = {
 	_T("-help"),
 	_T("-nowindow"),
 	_T("-nosound"),
@@ -44,7 +44,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		return -1;
 	}
 
-	for (int i = 1; i < __argc; i++) {
+	for (int i = 1; i < __argc - 1; i++) {
 		for (int j = 0; j < ARRAYSIZE(options); j++) {
 			if (_tcscmp(__targv[i], options[j]) == 0) {
 				switch (j) {
@@ -58,7 +58,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 						gNoSoundFlag = TRUE;
 						break;
 					case WPM:
-						morse.dotLen = _wtoi(__targv[j + 1]);
+						morse.dotLen = _wtoi(__targv[i + 1]);
 						break;
 					default: break;
 				}
