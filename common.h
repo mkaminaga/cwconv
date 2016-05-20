@@ -1,4 +1,10 @@
-﻿#pragma once
+﻿/**
+ * @file common.h
+ * @brief Common included header files
+ * @author Mamoru Kaminaga
+ * @date 2016-05-20 19:47:28
+ * */
+#pragma once
 
 #include <windows.h>
 #include <mmsystem.h>

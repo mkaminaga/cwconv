@@ -1,4 +1,10 @@
-﻿#pragma once
+﻿/**
+ * @file morse.h
+ * @brief Midi related information
+ * @author Mamoru Kaminaga
+ * @date 2016-05-20 19:47:50
+ * */
+#pragma once
 #include "common.h"
 
 #define MIDIMSG(status,channel,data1,data2) ((DWORD)((status<<4)|channel|(data1<<8)|(data2<<16)))

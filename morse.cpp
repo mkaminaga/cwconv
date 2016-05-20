@@ -1,4 +1,10 @@
-﻿#include "common.h"
+﻿/**
+ * @file morse.cpp
+ * @brief Morse output
+ * @author Mamoru Kaminaga
+ * @date 2016-05-20 19:47:12
+ * */
+#include "common.h"
 #include "morse.h"
 
 void Morse::__InitMidiDevice__() {
