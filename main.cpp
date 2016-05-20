@@ -94,5 +94,10 @@ void OutputMorse(TCHAR c) {
 
 		default: code = CW_CODE_UNKNOWN; break;
 	}
-	morse.OutputTerminalStringAndSound(code, c);
+
+	/* Output console and sound */
+	TCHAR strBuf[32] = {0};
+	morse.ToString(code, strBuf, ARRAYSIZE(strBuf));
+	_tprintf(_T("%c: %s\n"), c, strBuf);
+	morse.ToSound(code);
 }

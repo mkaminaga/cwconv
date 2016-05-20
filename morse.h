@@ -74,5 +74,4 @@ class Morse {
 
 		void ToString(int code, LPTSTR strOut, int strLen);
 		void ToSound(int code);
-		void OutputTerminalStringAndSound(int code, TCHAR c);
 };

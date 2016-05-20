@@ -40,12 +40,8 @@ void Morse::ToString(int code, LPTSTR strOut, int strLen) {
 		temp = code >> (4 * (7 - i));
 		temp &= 0xf;
 		switch (temp) {
-			case 1:
-				strOut[i * 2] = '.';
-				break;
-			case 3:
-				strOut[i * 2] = '-';
-				break;
+			case 1: strOut[i * 2] = '.'; break;
+			case 3: strOut[i * 2] = '-'; break;
 			default: return;
 		}
 		strOut[(i * 2) + 1] = ' ';
@@ -91,12 +87,4 @@ void Morse::ToSound(int code) {
 		Sleep(this->dotLen); //dot separator
 	}
 	Sleep(this->dotLen * 3); //charctor separator
-}
-
-void Morse::OutputTerminalStringAndSound(int code, TCHAR c) {
-	TCHAR strBuf[32] = {0};
-
-	this->ToString(code, strBuf, ARRAYSIZE(strBuf));
-	_tprintf(_T("%c: %s\n"), c, strBuf);
-	this->ToSound(code);
 }
