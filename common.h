@@ -7,9 +7,9 @@
 #pragma once
 
 #include <windows.h>
+#include <tchar.h>
 #include <mmsystem.h>
-#include "tchar.h"
-#include "stdio.h"
+#include <stdio.h>
 
 #define PROGRAM "cwconv"
 

@@ -4,8 +4,8 @@
 #Input files
 OUTDIR = build
 PROGRAM = cwconv
-SRC = main.cpp morse.cpp
-OBJS = $(OUTDIR)\main.obj $(OUTDIR)\morse.obj
+SRC = main.cpp morse.cpp common.cpp
+OBJS = $(OUTDIR)\main.obj $(OUTDIR)\morse.obj $(OUTDIR)\common.obj
 
 # describe tools
 CC = "C:\"Microsoft Visual Studio 14.0"\VC\bin\cl.exe"

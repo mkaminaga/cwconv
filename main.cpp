@@ -68,11 +68,12 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 						gNoSoundFlag = TRUE;
 						break;
 					case WPM: case PARIS:
-						morse.dotLen = 60000 / (_wtoi(__targv[i + 1]) * 50);
+						/* wpm (paris) -> dot millis */
+						morse.dotLen = 60E3 / (_wtoi(__targv[i + 1]) * 50);
 						break;
 					case STRING:
 						gStringFlag = TRUE;
-						gStringArg = i;
+						gStringArg = i + 1;
 					default: break;
 				}
 			}
@@ -127,9 +128,16 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	}
 
 	/* Output morse */
-	int length = (int) _tcslen(__targv[__argc - 1]);
-	for (int i = 0; i < length; i++) {
-		OutputMorseConsoleAndSound((TCHAR) __targv[__argc - 1][i]);
+	int length = 0;
+	for (int i = gStringArg; i < __argc; i++) {
+		length = (int) _tcslen(__targv[i]);
+		for (int j = 0; j < length; j++) {
+			OutputMorseConsoleAndSound((TCHAR) __targv[i][j]);
+		}
+		/* Word separating space */
+		if (i != __argc - 1) {
+			OutputMorseConsoleAndSound(_T(' '));
+		}
 	}
 
 	/* Finalize console */
