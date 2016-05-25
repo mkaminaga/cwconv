@@ -19,9 +19,9 @@ const TCHAR options[][16] = {
 	_T("-paris"),
 };
 
-const TCHAR helpMsg[][32] = {
+const TCHAR helpMsg[][64] = {
 	_T("Show help."),
-	_T("Input string tobe morse signal"),
+	_T("Input string to be morse signal."),
 	_T("Not show output console."),
 	_T("Not play midi sound."),
 	_T("Set WPM, default is 20."),
@@ -110,7 +110,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 			_tprintf(_T("\n"));
 			_tprintf(_T("options:\n"));
 			for (int i = 0; i < ARRAYSIZE(options); i++) {
-				_tprintf(_T("%s:\t%s\n"), options[i], helpMsg[i]);
+				_tprintf(_T("%s: %s\n"), options[i], helpMsg[i]);
 			}
 			goto CONSOLE_FINALIZE;
 		}
