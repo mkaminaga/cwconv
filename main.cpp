@@ -7,26 +7,41 @@
 #include "common.h"
 #include "morse.h"
 
-void OutputMorse(TCHAR c);
+void OutputMorseConsoleAndSound(TCHAR c);
 
 /* Command line option related data */
 const TCHAR options[][16] = {
 	_T("-help"),
+	_T("-s"),
 	_T("-nowindow"),
 	_T("-nosound"),
 	_T("-wpm"),
+	_T("-paris"),
+};
+
+const TCHAR helpMsg[][32] = {
+	_T("Show help."),
+	_T("Input string tobe morse signal"),
+	_T("Not show output console."),
+	_T("Not play midi sound."),
+	_T("Set WPM, default is 20."),
+	_T("Set PARIS, default is 20."),
 };
 
 enum options {
 	HELP = 0,
+	STRING,
 	NOWINDOW,
 	NOSOUND,
 	WPM,
+	PARIS,
 };
 
 int gHelpFlag = FALSE;
 int gNoConsoleFlag = FALSE;
 int gNoSoundFlag = FALSE;
+int gStringFlag = FALSE;
+int gStringArg = 0;
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	   	LPTSTR lpCmdLine, int nCmdShow) {
@@ -38,13 +53,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	Morse& morse = Morse::GetInstance();
 	morse.dotLen = 60;
 
-	/* Get command line options */
-	if (__argc <= 1) {
-		MessageBox(NULL, _T("No arguments"), _T("cwconv"), NULL);
-		return -1;
-	}
-
-	for (int i = 1; i < __argc - 1; i++) {
+	/* Process command line */
+	for (int i = 1; i < __argc; i++) {
 		for (int j = 0; j < ARRAYSIZE(options); j++) {
 			if (_tcscmp(__targv[i], options[j]) == 0) {
 				switch (j) {
@@ -57,9 +67,12 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 					case NOSOUND:
 						gNoSoundFlag = TRUE;
 						break;
-					case WPM:
-						morse.dotLen = _wtoi(__targv[i + 1]);
+					case WPM: case PARIS:
+						morse.dotLen = 60000 / (_wtoi(__targv[i + 1]) * 50);
 						break;
+					case STRING:
+						gStringFlag = TRUE;
+						gStringArg = i;
 					default: break;
 				}
 			}
@@ -75,29 +88,52 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		freopen("CON", "w", stdout);
 	}
 
+	/* Get command line options */
+	if (__argc <= 1) {
+		if (gNoConsoleFlag == TRUE) {
+			error_wondow(_T("No arguments specified"));
+			return 0;
+		} else {
+			error_console(_T("No arguments specified"));
+			goto CONSOLE_FINALIZE;
+		}
+	}
+
 	/* Show help to console */
 	if (gHelpFlag == TRUE) {
-		_tprintf(_T("program: cwconv\n"));
-		_tprintf(_T("options:"));
-		for (int i = 0; i < ARRAYSIZE(options); i++) {
-			if (i % 3 == 2) {
-				_tprintf(_T("\n\t"));
+		if (gNoConsoleFlag == TRUE) {
+			error_wondow(_T("You must remove -nowindow option to show help"));
+			return 0;
+		} else {
+			_tprintf(_T(PROGRAM));
+			_tprintf(_T("\n"));
+			_tprintf(_T("options:\n"));
+			for (int i = 0; i < ARRAYSIZE(options); i++) {
+				_tprintf(_T("%s:\t%s\n"), options[i], helpMsg[i]);
 			}
-			_tprintf(_T("<%s>"), options[i]);
+			goto CONSOLE_FINALIZE;
 		}
-		_tprintf(_T("\n"));
-		system("PAUSE");
-		FreeConsole();
-		return 0;
+	}
+
+	/* No string error */
+	if (gStringFlag == FALSE) {
+		if (gNoConsoleFlag == TRUE) {
+			error_wondow(_T("No input string"));
+			return 0;
+		} else {
+			error_console(_T("No input string"));
+			goto CONSOLE_FINALIZE;
+		}
 	}
 
 	/* Output morse */
 	int length = (int) _tcslen(__targv[__argc - 1]);
 	for (int i = 0; i < length; i++) {
-		OutputMorse((TCHAR) __targv[__argc - 1][i]);
+		OutputMorseConsoleAndSound((TCHAR) __targv[__argc - 1][i]);
 	}
 
 	/* Finalize console */
+	CONSOLE_FINALIZE:
 	if (gNoConsoleFlag == FALSE) {
 		system("PAUSE");
 		FreeConsole();
@@ -106,7 +142,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	return 0;
 }
 
-void OutputMorse(TCHAR tc) {
+void OutputMorseConsoleAndSound(TCHAR tc) {
 	Morse& morse = Morse::GetInstance();
 	int code = 0;
 
