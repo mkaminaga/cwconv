@@ -5,8 +5,13 @@
 // @date 2016-05-20 19:47:12
 // Copyright 2016 Mamoru Kaminaga
 ////////////////////////////////////
-#include "common.h"
 #include "morse_player.h"
+#include <wchar.h>
+#include <windows.h>
+#include <mmsystem.h>
+#include <stdio.h>
+#include "common.h"
+namespace mk {
 void MorsePlayer::Initialize() {
   midiOutOpen(&midi_handle_, MIDI_MAPPER, 0, 0, 0);
   midiOutShortMsg(midi_handle_, MIDIMSG(0x0c, 0x00, 0x1f, 0x00));
@@ -84,3 +89,4 @@ void MorsePlayer::PlaySound(int morse_code) {
   }
   Sleep(dot_len_ * 3);  // charctor separator
 }
+}  // namespace mk

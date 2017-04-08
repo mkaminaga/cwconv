@@ -6,6 +6,7 @@
 // Copyright 2016 Mamoru Kaminaga
 ////////////////////////////////////
 #include "common.h"
+namespace mk {
 void PrintError(const wchar_t* msg) {
   wprintf(L"ERROR: %s\n", msg);
 }
@@ -14,3 +15,4 @@ void DialogError(const wchar_t* msg) {
   wsprintf(buf, L"ERROR: %s", msg);
   MessageBox(NULL, buf, APP_NAME, NULL);
 }
+}  // namespace mk
