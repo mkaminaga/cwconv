@@ -233,6 +233,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
   }
   // Normal exit proc.
   if (!no_console) {
+    wprintf(L"\n");
     system("PAUSE");
     FreeConsole();
   }
@@ -243,6 +244,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
 ERROR_EXIT:
   // Error exit proc.
   if (!no_console) {
+    wprintf(L"\n");
     system("PAUSE");
     FreeConsole();
   }
