@@ -30,11 +30,11 @@ const wchar_t kOptions[ELEMNUM_OPTIONS][16] = {
 };
 const wchar_t kHelp[ELEMNUM_OPTIONS][64] = {
   L"Show help",                        // OPTION_HELP
-  L"Input string to be morse signal",  // OPTION_STRING
+  L"Set text",                         // OPTION_STRING
   L"Not show output console",          // OPTION_NOWINDOW
-  L"Not play midi sound",              // OPTION_NOSOUND
-  L"Set WPM, default is 20",           // OPTION_WPM
-  L"Set PARIS, default is 20",         // OPTION_PARIS
+  L"Not play sound",                   // OPTION_NOSOUND
+  L"Set WPM (default is 20)",          // OPTION_WPM
+  L"Set PARIS (default is 20)",        // OPTION_PARIS
 };
 bool help_required = false;
 bool no_console = false;
