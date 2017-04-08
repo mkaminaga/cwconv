@@ -5,8 +5,8 @@ cwconv
   Play morse sound from command line string.<br>
 
 ## Description
-  This toole is created for my morse signal decoding practice.<br>
-  I decided to create a small tool to create sound from short text.<br>
+  This tool is created for my morse signal decoding practice.<br>
+  I created a small tool to play sound from command line.<br>
   The tool is easily combined with other tools: shell scripts, editors, and so on.<br>
 
 ## Demo
@@ -14,16 +14,16 @@ cwconv
   ![Demo](doc/cwconv.gif "Demo")
 
 ## Features
-  * vim script: vimplugin/cwconv.vim plays text on clipboard (Currently cigwin only)
+  * Use cwconv on vim: vimplugin/cwconv.vim enables you to use cwconv from vim, text on on clipboard is passed set to args (Only avairable on cigwin)
 
 ## Requirement
-  Windows OS.<br>
-  Windows SDK.<br>
-  DirectSound.<br>
+  * Windows OS<br>
+  * Windows SDK<br>
+  * DirectSound<br>
 
 ## Install
-  You can get binary from release page (current latest version is 1.0.0).<br>
-  If you build latest code form source code, follow the processes below:<br>
+  You can get binary from release page (latest version is 1.0.0).<br>
+  If you build from source code, follow the processes below:<br>
   1. Setup build environment<br>
   You have to setup environment for command line build.<br>
 
@@ -31,23 +31,24 @@ cwconv
   Set environmental variables (PATH, LIB, LIBPATH and INCLUDE) for SDKs.<br>
 
   3. Fix makefile<br>
-  Fix variable "CC" and "LINK" to your environment.<br>
+  Customize variable "CC" and "LINK" for your environment.<br>
 
   4. Build this program in command line.<br>
-  Build cwconv !
+  Be sure "./build" dir exists.
 
 ## Usage
   options:<br>
-  -help:     Show help<br>
+  -help: Show help<br>
   -nowindow: Not show output console<br>
-  -nosound:  Not play sound<br>
-  -wpm:      Set WPM, default is 20<br>
-  -paris:    Set PARIS, default is 20<br>
-  -s:        Input string to be morse signal<br>
+  -nosound: Not play sound<br>
+  -wpm: WPM (default is 20)<br>
+  -paris: PARIS (default is 20)<br>
+  -s: Input text<br>
 
 ## Example
-  `cwconv.exe -paris 30 -s this is a pen`<br>
-  `_  . . . .  . .  . . .     . .  . . .     . _     . _ _ .  .  _ .`<br>
-
-## Install
-  Put cwconv.exe and sin_wave.wav in the same directory.
+  * Say "Hello world" with 30 WPM<br>
+  `cwconv.exe -paris 30 -s Hello world`<br>
+  * Show "Hello world" simbol without playing sound<br>
+  `cwconv.exe -nosound -s Hello world`<br>
+  * Play "Hello world" sound without simbol<br>
+  `cwconv.exe -nowindow -s Hello world`<br>
