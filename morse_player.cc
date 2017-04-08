@@ -3,8 +3,8 @@
 // @brief MorsePlayer output
 // @author Mamoru Kaminaga
 // @date 2016-05-20 19:47:12
-////////////////////////////////////
 // Copyright 2016 Mamoru Kaminaga
+////////////////////////////////////
 #include "common.h"
 #include "morse_player.h"
 void MorsePlayer::Initialize() {
