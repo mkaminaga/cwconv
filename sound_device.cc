@@ -25,11 +25,10 @@ void SoundDevice::Finalize() {
 }
 bool SoundDevice::CreateWaveDataFromFile(int wave_data_id,
                                          const wchar_t* file_name) {
-  if ((wave_data_id >= SOUND_DEVICE_WAVE_MAX_NUM) || (wave_data_id < 0)) {
-    return false;  // Invalid resource id.
-  }
+  if (!SOUND_DEVICE_CHECK_ID(wave_data_id)) return false;
+  //
   HMMIO mmio_handle = NULL;
-  if ((mmio_handle = mmioOpen((LPWSTR) file_name,  // NOLINT, C cast fails.
+  if ((mmio_handle = mmioOpen((LPWSTR) file_name,  // NOLINT
                               NULL, MMIO_READ)) == NULL) {
     return false;
   }
@@ -54,7 +53,8 @@ bool SoundDevice::CreateWaveDataFromFile(int wave_data_id,
   //
   WAVEFORMATEX wave_fmt_ex = {0};
   memset(&wave_fmt_ex, 0, sizeof(WAVEFORMATEX));
-  if (mmioRead(mmio_handle, (HPSTR) &wave_fmt_ex, format_chunk.cksize) !=
+  if (mmioRead(mmio_handle, (HPSTR) &wave_fmt_ex,  // NOLINT
+               format_chunk.cksize) !=
       static_cast<LONG>(format_chunk.cksize)) {
     mmioClose(mmio_handle, 0);
     return false;
@@ -72,7 +72,7 @@ bool SoundDevice::CreateWaveDataFromFile(int wave_data_id,
   }
   //
   std::unique_ptr<char[]> wave_data(new char[data_chunk.cksize]);
-  if (mmioRead(mmio_handle, (HPSTR) wave_data.get(), data_chunk.cksize) !=
+  if (mmioRead(mmio_handle, wave_data.get(), data_chunk.cksize) !=
       static_cast<LONG>(data_chunk.cksize)) {
     mmioClose(mmio_handle, 0);
     return false;
@@ -108,12 +108,23 @@ bool SoundDevice::CreateWaveDataFromFile(int wave_data_id,
   return true;
 }
 void SoundDevice::ReleaseWaveData(int wave_data_id) {
-  if (!wave_data_buf_[wave_data_id]) return;  // Resource not exists.
+  if (!SOUND_DEVICE_CHECK_ID(wave_data_id)) return;
+  if (!wave_data_buf_[wave_data_id]) return;
+  wave_data_buf_[wave_data_id]->Stop();
+  wave_data_buf_[wave_data_id]->Release();
+  wave_data_buf_[wave_data_id] = nullptr;
 }
 bool SoundDevice::PlayWaveData(int wave_data_id) {
+  if (!SOUND_DEVICE_CHECK_ID(wave_data_id)) return false;
+  if (!wave_data_buf_[wave_data_id]) return false;
+  wave_data_buf_[wave_data_id]->Play(0, 0, 0);
   return true;
 }
 bool SoundDevice::StopWaveData(int wave_data_id) {
+  if (!SOUND_DEVICE_CHECK_ID(wave_data_id)) return false;
+  if (!wave_data_buf_[wave_data_id]) return false;
+  wave_data_buf_[wave_data_id]->Stop();
+  wave_data_buf_[wave_data_id]->SetCurrentPosition(0);
   return true;
 }
 }  // namespace mk
