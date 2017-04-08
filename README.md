@@ -39,18 +39,12 @@ cwconv
 
 ## Usage
   options:<br>
-  `-help`<br>
-  Show help<br>
-  `-nowindow`<br>
-  Not show output console<br>
-  `-nosound`<br>
-  Not play sound<br>
-  `-wpm`<br>
-  WPM (default is 20)<br>
-  `-paris`<br>
-  PARIS (default is 20)<br>
-  `-s`
-Input text<br>
+  `-help` Show help<br>
+  `-nowindow` Not show output console<br>
+  `-nosound` Not play sound<br>
+  `-wpm` Set WPM (default is 20)<br>
+  `-paris` Set PARIS (default is 20)<br>
+  `-s` Set text<br>
 
 ## Example
   * Say "Hello world" with 30 WPM<br>
