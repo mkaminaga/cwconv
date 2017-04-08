@@ -1,0 +1,4 @@
+Copyright 2017 Mamoru Kaminaga
+
+sin_wave.wav is monaural wav file.
+Simple sine wave with frequency 700 Hz.
