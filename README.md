@@ -15,7 +15,7 @@ cwconv
 
 ## Features
   * Use cwconv from vim<br>
-   `vimplugin/cwconv.vim` enables you to use cwconv from vim, text on on clipboard is passed set to args (Only avairable from cigwin)<br>
+   `vimplugin/cwconv.vim` enables you to use cwconv from vim, text on on clipboard is passed to args (Only avairable from cigwin)<br>
 
 ## Requirement
   * Windows OS<br>
