@@ -52,6 +52,8 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
   UNREFERENCED_PARAMETER(cmd_lind);
   UNREFERENCED_PARAMETER(cmd_show);
   //
+  CreateInvisibleWindow(instance_handle);
+  //
   MorsePlayer morse_player;
   morse_player.Initialize();
   morse_player.dot_len_ = 60;
