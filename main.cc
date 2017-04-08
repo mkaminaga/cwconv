@@ -109,7 +109,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
       wprintf(L"\n");
       wprintf(L"options:\n");
       for (int i = 0; i < ELEMNUM_OPTIONS; ++i) {
-        wprintf(L"%s: %s\n", kOptions[i], kHelp[i]);
+        wprintf(L"%s:\t%s\n", kOptions[i], kHelp[i]);
       }
       goto ERROR_EXIT;
     }
@@ -207,7 +207,7 @@ void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor) {
   if (!no_sound) morse_player->PlaySound(morse_code);
 }
 // Void callback function.
-LRESULT CALLBACK WndProc(HWND wnd, UINT message, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp) {
   // Prevent warnings for unreferenced parameters.
   UNREFERENCED_PARAMETER(wnd);
   UNREFERENCED_PARAMETER(wp);
@@ -219,7 +219,7 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT message, WPARAM wp, LPARAM lp) {
     default:
       break;
   }
-  return DefWindowProc(wnd, message, wp, lp);
+  return DefWindowProc(wnd, msg, wp, lp);
 }
 // Window is required to set icom on win32 application.
 bool CreateInvisibleWindow(HINSTANCE instance_handle) {

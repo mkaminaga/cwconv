@@ -66,7 +66,6 @@ class MorsePlayer {
   ~MorsePlayer() {}
   void Initialize();
   void Finalize();
-  int dot_len;
   void ShowSimbol(int code);
   void PlaySound(int code);
  private:
