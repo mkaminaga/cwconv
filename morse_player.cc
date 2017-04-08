@@ -39,7 +39,7 @@ void MorsePlayer::ShowSimbol(int morse_code) {
     ++i;
     if (i > 8) break;  // infint loop escape
   }
-  // Convert string to morse simbol.
+  // Shoe simbol for morse code
   for (i = 0; i < 8 && (i << 1) <= kStrLen; ++i) {
     simbol = (morse_code >> (4 * (7 - i))) & 0xf;
     if ((simbol & 0xf) == 0) break;
@@ -71,7 +71,7 @@ void MorsePlayer::PlaySound(int morse_code) {
     ++i;
     if (i > 8) break;  // infint loop escape
   }
-  // Convert string to morse sound.
+  // Play sound for morse code
   for (i = 0; i < 8; i++) {
     simbol = (morse_code >> (4 * (7 - i))) & 0xf;
     if ((simbol & 0xf) == 0) break;
