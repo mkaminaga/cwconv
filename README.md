@@ -12,6 +12,8 @@ Requirement
 
 Install
 ====
+  You can get binary from release page (current latest version is 1.0.0).<br>
+  If build latest code, follow the processes below:<br>
   1. Setup build environment<br>
   You have to setup environment for command line build.<br>
 
