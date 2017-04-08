@@ -2,18 +2,28 @@
 
 cwconv
 ====
-  Play morse from command line.<br>
+  Play morse sound from command line string.<br>
 
-Requirement
-====
-  Windows PC and suitable compiler (In my case, Visual C++, CL compiler).<br>
+## Description
+  This toole is created for my morse signal decoding practice.<br>
+  I decided to create a small tool to create sound from short text.<br>
+  The tool is easily combined with other tools: shell scripts, editors, and so on.<br>
+
+## Demo
+  Using cwconv.exe from cmd.exe.
+  ![Demo](doc/cwconv.gif "Demo")
+
+## Features
+  * vim script: vimplugin/cwconv.vim plays text on clipboard (Currently cigwin only)
+
+## Requirement
+  Windows OS.<br>
   Windows SDK.<br>
   DirectSound.<br>
 
-Install
-====
+## Install
   You can get binary from release page (current latest version is 1.0.0).<br>
-  If build latest code, follow the processes below:<br>
+  If you build latest code form source code, follow the processes below:<br>
   1. Setup build environment<br>
   You have to setup environment for command line build.<br>
 
@@ -26,8 +36,7 @@ Install
   4. Build this program in command line.<br>
   Build cwconv !
 
-Usage
-====
+## Usage
   options:<br>
   -help:     Show help<br>
   -nowindow: Not show output console<br>
@@ -35,5 +44,10 @@ Usage
   -wpm:      Set WPM, default is 20<br>
   -paris:    Set PARIS, default is 20<br>
   -s:        Input string to be morse signal<br>
-  exmaple: "cwconv.exe -paris 30 -s this is a pen"<br>
-  result: `"_  . . . .  . .  . . .     . .  . . .     . _     . _ _ .  .  _ ."`<br>
+
+## Example
+  `cwconv.exe -paris 30 -s this is a pen`<br>
+  `_  . . . .  . .  . . .     . .  . . .     . _     . _ _ .  .  _ .`<br>
+
+## Install
+  Put cwconv.exe and sin_wave.wav in the same directory.
