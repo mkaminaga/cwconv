@@ -1,4 +1,4 @@
-﻿Copyright 2016 mkaminaga
+﻿Copyright 2016 Mamoru kaminaga
 
 cwconv
 ====
