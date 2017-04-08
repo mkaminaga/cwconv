@@ -1,10 +1,8 @@
-////////////////////////////////////
 // @file sound_device.h
 // @brief Sound device class
 // @author Mamoru Kaminaga
 // @date 2017-04-08 20:08:18
 // Copyright 2017 Mamoru Kaminaga
-////////////////////////////////////
 #ifndef SOUND_DEVICE_H_
 #define SOUND_DEVICE_H_
 #include <wchar.h>

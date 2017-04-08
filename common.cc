@@ -1,10 +1,8 @@
-﻿////////////////////////////////////
-// @file common.cpp
+﻿// @file common.cpp
 // @brief Common function
 // @author Mamoru Kaminaga
 // @date 2016-05-15 12:08:31
 // Copyright 2016 Mamoru Kaminaga
-////////////////////////////////////
 #include <wchar.h>
 #include <windows.h>
 #include "common.h"

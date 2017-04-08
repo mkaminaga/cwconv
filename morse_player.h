@@ -1,10 +1,8 @@
-﻿////////////////////////////////////
-// @file morse_player.h
+﻿// @file morse_player.h
 // @brief Midi related information
 // @author Mamoru Kaminaga
 // @date 2016-05-20 19:47:50
 // Copyright 2016 Mamoru Kaminaga
-////////////////////////////////////
 #ifndef MORSE_PLAYER_H_
 #define MORSE_PLAYER_H_
 #include <wchar.h>

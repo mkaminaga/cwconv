@@ -1,10 +1,8 @@
-////////////////////////////////////
 // @file sound_device.cc
 // @brief Sound device class
 // @author Mamoru Kaminaga
 // @date 2017-04-08 20:22:10
 // Copyright 2017 Mamoru Kaminaga
-////////////////////////////////////
 #include "sound_device.h"
 #include <wchar.h>
 #include <windows.h>

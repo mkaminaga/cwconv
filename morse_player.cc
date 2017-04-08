@@ -1,10 +1,8 @@
-﻿////////////////////////////////////
-// @file morse_player.cpp
+﻿// @file morse_player.cpp
 // @brief MorsePlayer output
 // @author Mamoru Kaminaga
 // @date 2016-05-20 19:47:12
 // Copyright 2016 Mamoru Kaminaga
-////////////////////////////////////
 #include "morse_player.h"
 #include <wchar.h>
 #include <windows.h>
