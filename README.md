@@ -10,7 +10,7 @@ cwconv
 
 ## Demo
   Using cwconv from `cmd.exe`.<br>
-  Sound is alos being played with morse simbol text draw.<br>
+  Sound is also being played with morse simbol text draw.<br>
   ![Demo](doc/cwconv.gif "Demo")
 
 ## Features
