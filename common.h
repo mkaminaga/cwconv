@@ -7,7 +7,8 @@
 ////////////////////////////////////
 #ifndef COMMON_H_
 #define COMMON_H_
-#define APP_NAME L"cwconv"
+#define APP_NAME                  L"cwconv"
+#define MORSE_PLAYER_WAV_DATA_ID  (0)
 namespace mk {
 void PrintError(const wchar_t* msg);
 void DialogError(const wchar_t* msg);

@@ -8,17 +8,16 @@
 #include "morse_player.h"
 #include <wchar.h>
 #include <windows.h>
-#include <mmsystem.h>
 #include <stdio.h>
 #include "common.h"
+#include "sound_device.h"
+#define WAVE_FILE L"sin_wave.wav"
 namespace mk {
-void MorsePlayer::Initialize() {
-  midiOutOpen(&midi_handle_, MIDI_MAPPER, 0, 0, 0);
-  midiOutShortMsg(midi_handle_, MIDIMSG(0x0c, 0x00, 0x1f, 0x00));
+bool MorsePlayer::Initialize() {
+  return sound_device_->CreateWaveDataFromFile(wave_data_id_, WAVE_FILE);
 }
 void MorsePlayer::Finalize() {
-  midiOutReset(midi_handle_);
-  midiOutClose(midi_handle_);
+  sound_device_->ReleaseWaveData(wave_data_id_);
 }
 void MorsePlayer::ShowSimbol(int morse_code) {
   constexpr int kStrLen = 64;
@@ -59,7 +58,7 @@ void MorsePlayer::PlaySound(int morse_code) {
   // Exception.
   switch (morse_code) {
     case MORSE_SPACE:
-      Sleep(dot_len_);  // Blank time
+      Sleep(dot_ms_);  // Blank time
       return;
     case MORSE_UNKNOWN:  // No sound
       return;
@@ -78,15 +77,15 @@ void MorsePlayer::PlaySound(int morse_code) {
   for (i = 0; i < 8; i++) {
     simbol = (morse_code >> (4 * (7 - i))) & 0xf;
     if ((simbol & 0xf) == 0) break;
-    midiOutShortMsg(midi_handle_, MIDIMSG(0x09, 0x00, 0x2a, 0x7f));  // Start
+    sound_device_->PlayWaveData(wave_data_id_);
     switch (simbol) {
-      case SHORT_VOWEL: Sleep(dot_len_); break;
-      case LONG_VOWEL: Sleep(dot_len_ * 3); break;
+      case SHORT_VOWEL: Sleep(dot_ms_); break;
+      case LONG_VOWEL: Sleep(dot_ms_ * 3); break;
       default: break;
     }
-    midiOutShortMsg(midi_handle_, MIDIMSG(0x09, 0x00, 0x2a, 0x00));  // Stop
-    Sleep(dot_len_);  // dot separator
+    sound_device_->StopWaveData(wave_data_id_);
+    Sleep(dot_ms_);  // dot separator
   }
-  Sleep(dot_len_ * 3);  // charctor separator
+  Sleep(dot_ms_ * 3);  // charctor separator
 }
 }  // namespace mk

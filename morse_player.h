@@ -9,9 +9,8 @@
 #define MORSE_PLAYER_H_
 #include <wchar.h>
 #include <windows.h>
-#include <mmsystem.h>
-#define MIDIMSG(status, channel, data1, data2) \
-  (static_cast<DWORD>((status << 4)|channel|(data1 << 8)|(data2 << 16)))
+#include "common.h"
+#include "sound_device.h"
 // Morse data table, 1 stands for short sound, 3 stands for long sound.
 #define SHORT_VOWEL     (1)
 #define LONG_VOWEL      (3)
@@ -64,15 +63,17 @@
 namespace mk {
 class MorsePlayer {
  public:
-  int dot_len_;
-  MorsePlayer() : dot_len_(60) {}
+  int dot_ms_;
+  explicit MorsePlayer(SoundDevice* sound_device) : dot_ms_(60),
+      sound_device_(sound_device), wave_data_id_(MORSE_PLAYER_WAV_DATA_ID) {}
   ~MorsePlayer() {}
-  void Initialize();
+  bool Initialize();
   void Finalize();
   void ShowSimbol(int code);
   void PlaySound(int code);
  private:
-  HMIDIOUT midi_handle_;
+  SoundDevice* sound_device_;
+  int wave_data_id_;  // Fixed value in this program.
 };
 }  // namespace mk
 #endif  // MORSE_PLAYER_H_

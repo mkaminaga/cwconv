@@ -5,6 +5,8 @@
 // @date 2016-05-15 12:08:31
 // Copyright 2016 Mamoru Kaminaga
 ////////////////////////////////////
+#include <wchar.h>
+#include <windows.h>
 #include "common.h"
 namespace mk {
 void PrintError(const wchar_t* msg) {

@@ -8,10 +8,10 @@ PDBFILE = symbols/exe/cwconv.pdb
 MAPFILE = maps/cwconv.map
 RESFILE = resource.res
 
-SRC = common.cc main.cc morse_player.cc
-OBJS = $(OUTDIR)/common.obj $(OUTDIR)/main.obj $(OUTDIR)/morse_player.obj
+SRC = common.cc main.cc morse_player.cc sound_device.cc
+OBJS = $(OUTDIR)/common.obj $(OUTDIR)/main.obj $(OUTDIR)/morse_player.obj $(OUTDIR)/sound_device.obj
 
-LIBS = "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" "dsound.lib" "winmm.lib" "winmm.lib"
+LIBS = "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" "dsound.lib" "winmm.lib" "dxguid.lib"
 
 CC = "C:\"Microsoft Visual Studio 14.0"\VC\bin\cl.exe"
 LINK = "C:\"Microsoft Visual Studio 14.0"\VC\bin\link.exe"

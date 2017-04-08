@@ -11,6 +11,7 @@
 #include "common.h"
 #include "morse_player.h"
 #include "resource.h"
+#include "sound_device.h"
 #define WINDOW_STYLE    (WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX)
 enum OPTIONS {
   OPTION_HELP = 0,
@@ -42,119 +43,7 @@ bool no_console = false;
 bool no_sound = false;
 bool play_command_line_string = false;
 int string_argc_offset = 0;
-void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor);
-bool CreateInvisibleWindow(HINSTANCE instance_handle);
-int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
-                    LPTSTR cmd_lind, int cmd_show) {
-  // Prevent warnings for unreferenced parameters.
-  UNREFERENCED_PARAMETER(instance_handle);
-  UNREFERENCED_PARAMETER(not_used);
-  UNREFERENCED_PARAMETER(cmd_lind);
-  UNREFERENCED_PARAMETER(cmd_show);
-  //
-  CreateInvisibleWindow(instance_handle);
-  //
-  MorsePlayer morse_player;
-  morse_player.Initialize();
-  morse_player.dot_len_ = 60;
-  // Command line is processed.
-  for (int i = 1; i < __argc; ++i) {
-    for (int j = 0; j < ELEMNUM_OPTIONS; ++j) {
-      if (wcscmp(__wargv[i], kOptions[j]) == 0) {
-        switch (j) {
-          case OPTION_HELP:
-            help_required = true;
-            break;
-          case OPTION_NOWINDOW:
-            no_console = true;
-            break;
-          case OPTION_NOSOUND:
-            no_sound = true;
-            break;
-          case OPTION_WPM:  // Same as OPTION_PARIS
-          case OPTION_PARIS:
-            // wpm (paris) -> dot millis
-            morse_player.dot_len_ = 60000 / (_wtoi(__wargv[i + 1]) * 50);
-            break;
-          case OPTION_STRING:
-            play_command_line_string = true;
-            string_argc_offset = i + 1;
-          default:
-            break;
-        }
-      }
-    }
-  }
-  // Win32 Console is initialized.
-  if (!no_console) {
-    if (!AttachConsole(ATTACH_PARENT_PROCESS)) AllocConsole();
-    freopen("CON", "r", stdin);
-    freopen("CON", "w", stdout);
-  }
-  // Argument num error check done.
-  if (__argc <= 1) {
-    if (no_console) {
-      DialogError(L"No arguments specified");
-      return -1;
-    } else {
-      PrintError(L"No arguments specified");
-      goto ERROR_EXIT;
-    }
-  }
-  // Help option process.
-  if (help_required) {
-    if (no_console) {
-      DialogError(L"You must not set -nowindow option to show help");
-      return 0;
-    } else {
-      wprintf(APP_NAME);
-      wprintf(L"\n");
-      wprintf(L"options:\n");
-      for (int i = 0; i < ELEMNUM_OPTIONS; ++i) {
-        wprintf(L"%s:\t%s\n", kOptions[i], kHelp[i]);
-      }
-      goto ERROR_EXIT;
-    }
-  }
-  // String error.
-  if (play_command_line_string == false) {
-    if (no_console) {
-      DialogError(L"No input string");
-      return -1;
-    } else {
-      PrintError(L"No input string");
-      goto ERROR_EXIT;
-    }
-  }
-  // Morse generated
-  int length = 0;
-  for (int i = string_argc_offset; i < __argc; ++i) {
-    length = wcslen(__wargv[i]);
-    for (int j = 0; j < length; ++j) {
-      ShowAndPlay(&morse_player, __wargv[i][j]);
-      ShowAndPlay(&morse_player, L' ');
-    }
-    if (i != (__argc - 1)) {  // Word separator.
-      ShowAndPlay(&morse_player, L' ');
-      ShowAndPlay(&morse_player, L' ');
-      ShowAndPlay(&morse_player, L' ');
-    }
-  }
-  // Finalize console.
-  if (!no_console) {
-    system("PAUSE");
-    FreeConsole();
-  }
-  morse_player.Finalize();
-  return 0;
-ERROR_EXIT:
-  if (!no_console) {
-    system("PAUSE");
-    FreeConsole();
-  }
-  morse_player.Finalize();
-  return -1;
-}
+namespace mk {
 void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor) {
   int morse_code = 0;
   switch (charactor) {
@@ -224,7 +113,7 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp) {
   return DefWindowProc(wnd, msg, wp, lp);
 }
 // Window is required to set icom on win32 application.
-bool CreateInvisibleWindow(HINSTANCE instance_handle) {
+HWND CreateInvisibleWindow(HINSTANCE instance_handle) {
   WNDCLASSEX wcex;
   // Window class registered.
   memset(&wcex, 0, sizeof(wcex));
@@ -242,9 +131,124 @@ bool CreateInvisibleWindow(HINSTANCE instance_handle) {
   wcex.hIconSm = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
   if (RegisterClassEx(&wcex) == 0) return false;
   // Invisible window created.
-  HWND window_handle = CreateWindow(APP_NAME, APP_NAME, WINDOW_STYLE,
-                                    CW_USEDEFAULT, CW_USEDEFAULT, 256, 256,
-                                    NULL, NULL, instance_handle, NULL);
-  if (window_handle == NULL) return false;
-  return true;
+  return CreateWindow(APP_NAME, APP_NAME, WINDOW_STYLE, CW_USEDEFAULT,
+                      CW_USEDEFAULT, 256, 256, NULL, NULL, instance_handle,
+                      NULL);
+}
+}  // namespace mk
+int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
+                    LPTSTR cmd_lind, int cmd_show) {
+  // Prevent warnings for unreferenced parameters.
+  UNREFERENCED_PARAMETER(instance_handle);
+  UNREFERENCED_PARAMETER(not_used);
+  UNREFERENCED_PARAMETER(cmd_lind);
+  UNREFERENCED_PARAMETER(cmd_show);
+  //
+  HWND window_handle = mk::CreateInvisibleWindow(instance_handle);
+  mk::SoundDevice device(window_handle);
+  device.Initialize();
+  mk::MorsePlayer morse_player(&device);
+  morse_player.Initialize();
+  morse_player.dot_ms_ = 60;
+  // Command line args proc.
+  for (int i = 1; i < __argc; ++i) {
+    for (int j = 0; j < ELEMNUM_OPTIONS; ++j) {
+      if (wcscmp(__wargv[i], kOptions[j]) == 0) {
+        switch (j) {
+          case OPTION_HELP:
+            help_required = true;
+            break;
+          case OPTION_NOWINDOW:
+            no_console = true;
+            break;
+          case OPTION_NOSOUND:
+            no_sound = true;
+            break;
+          case OPTION_WPM:  // Same as OPTION_PARIS
+          case OPTION_PARIS:
+            // wpm (paris) -> dot millis
+            morse_player.dot_ms_ = 60000 / (_wtoi(__wargv[i + 1]) * 50);
+            break;
+          case OPTION_STRING:
+            play_command_line_string = true;
+            string_argc_offset = i + 1;
+          default:
+            break;
+        }
+      }
+    }
+  }
+  // Console proc.
+  if (!no_console) {
+    if (!AttachConsole(ATTACH_PARENT_PROCESS)) AllocConsole();
+    freopen("CON", "r", stdin);
+    freopen("CON", "w", stdout);
+  }
+  // Argument num error check proc.
+  if (__argc <= 1) {
+    if (no_console) {
+      mk::DialogError(L"No arguments specified");
+      return -1;
+    } else {
+      mk::PrintError(L"No arguments specified");
+      goto ERROR_EXIT;
+    }
+  }
+  // Help option proc.
+  if (help_required) {
+    if (no_console) {
+      mk::DialogError(L"You must not set -nowindow option to show help");
+      return 0;
+    } else {
+      wprintf(APP_NAME);
+      wprintf(L"\n");
+      wprintf(L"options:\n");
+      for (int i = 0; i < ELEMNUM_OPTIONS; ++i) {
+        wprintf(L"%s:\t%s\n", kOptions[i], kHelp[i]);
+      }
+      goto ERROR_EXIT;
+    }
+  }
+  // String error proc.
+  if (play_command_line_string == false) {
+    if (no_console) {
+      mk::DialogError(L"No input string");
+      return -1;
+    } else {
+      mk::PrintError(L"No input string");
+      goto ERROR_EXIT;
+    }
+  }
+  // Morse generation proc.
+  int length = 0;
+  for (int i = string_argc_offset; i < __argc; ++i) {
+    length = wcslen(__wargv[i]);
+    for (int j = 0; j < length; ++j) {
+      mk::ShowAndPlay(&morse_player, __wargv[i][j]);
+      mk::ShowAndPlay(&morse_player, L' ');
+    }
+    if (i != (__argc - 1)) {  // Word separator.
+      mk::ShowAndPlay(&morse_player, L' ');
+      mk::ShowAndPlay(&morse_player, L' ');
+      mk::ShowAndPlay(&morse_player, L' ');
+    }
+  }
+  // Normal exit proc.
+  if (!no_console) {
+    system("PAUSE");
+    FreeConsole();
+  }
+  morse_player.Finalize();
+  device.Finalize();
+  return 0;
+
+ERROR_EXIT:
+  // Error exit proc.
+  if (!no_console) {
+    system("PAUSE");
+    FreeConsole();
+  }
+  morse_player.Finalize();
+  device.Finalize();
+  return -1;
 }

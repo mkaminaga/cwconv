@@ -8,6 +8,7 @@ Requirement
 ====
   Windows PC and suitable compiler (In my case, Visual C++, CL compiler).<br>
   Windows SDK.<br>
+  DirectSound.<br>
 
 Install
 ====
