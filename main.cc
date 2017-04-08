@@ -85,7 +85,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
   }
   // Win32 Console is initialized.
   if (!no_console) {
-    AllocConsole();
+		if (!AttachConsole(ATTACH_PARENT_PROCESS)) AllocConsole();
     freopen("CON", "r", stdin);
     freopen("CON", "w", stdout);
   }

@@ -42,7 +42,7 @@ void MorsePlayer::ShowSimbol(int morse_code) {
     simbol = (morse_code >> (4 * (7 - i))) & 0xf;
     if ((simbol & 0xf) == 0) break;
     switch (simbol) {
-      case SHORT_VOWEL: str_buf[i << 1] = '|'; break;
+      case SHORT_VOWEL: str_buf[i << 1] = '.'; break;
       case LONG_VOWEL: str_buf[i << 1] = '_'; break;
       default: return;
     }

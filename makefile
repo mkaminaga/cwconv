@@ -1,5 +1,7 @@
 # makefile
 # date 2016-09-06 11:10:08
+# Copyright 2016 Mamoru kaminaga
+# #You have to fix "CC" and "LINK" for your environment.
 OUTDIR = build
 TARGET = cwconv.exe
 PDBFILE = symbols/exe/cwconv.pdb
@@ -16,12 +18,12 @@ LINK = "C:\"Microsoft Visual Studio 14.0"\VC\bin\link.exe"
 RM = del
 
 #Debug build
-CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /I"C:\projects" /TP /EHsc /Fd"$(OUTDIR)/" /D"_CRT_SECURE_NO_WARNINGS" /D"DIRECTINPUT_VERSION=0x0800"
-LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"C:\projects" /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)" /DEBUG
+#CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /I"C:\projects" /TP /EHsc /Fd"$(OUTDIR)/" /D"_CRT_SECURE_NO_WARNINGS" /D"DIRECTINPUT_VERSION=0x0800"
+#LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"C:\projects" /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)" /DEBUG
 
 #Release build
-#CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /I"C:\projects" /EHsc /Fd"$(OUTDIR)/" /D"_CRT_SECURE_NO_WARNINGS" /D"DIRECTINPUT_VERSION=0x0800" /D"NODEBUG"
-#LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"C:\projects" /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)"
+CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /I"C:\projects" /EHsc /Fd"$(OUTDIR)/" /D"_CRT_SECURE_NO_WARNINGS" /D"DIRECTINPUT_VERSION=0x0800" /D"NODEBUG"
+LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"C:\projects" /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)"
 
 ALL: $(TARGET)
 
