@@ -34,4 +34,4 @@ Usage
   -paris:    Set PARIS, default is 20<br>
   -s:        Input string to be morse signal<br>
   exmaple: "cwconv.exe -paris 30 -s this is a pen"<br>
-  result: "_  . . . .  . .  . . .     . .  . . .     . _     . _ _ .  .  _ ."<br>
+  result: `"_  . . . .  . .  . . .     . .  . . .     . _     . _ _ .  .  _ ."`<br>
