@@ -33,6 +33,5 @@ Usage
   -wpm:      Set WPM, default is 20<br>
   -paris:    Set PARIS, default is 20<br>
   -s:        Input string to be morse signal<br>
-  example)<br>
-  -wpm 20 -s Good Morning!<br>
-  result)<br>
+  exmaple: "cwconv.exe -paris 30 -s this is a pen<br>"
+  result: "_  . . . .  . .  . . .     . .  . . .     . _     . _ _ .  .  _ ."
