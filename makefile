@@ -1,34 +1,32 @@
 # makefile
-# since 2016-05-07
-
-#Input files
+# date 2016-09-06 11:10:08
 OUTDIR = build
-PROGRAM = cwconv
-SRC = main.cpp morse.cpp common.cpp
-OBJS = $(OUTDIR)\main.obj $(OUTDIR)\morse.obj $(OUTDIR)\common.obj
+TARGET = cwconv.exe
+PDBFILE = symbols/exe/cwconv.pdb
+MAPFILE = maps/cwconv.map
+RESFILE = resource.res
 
-# describe tools
+SRC = common.cc main.cc morse_player.cc
+OBJS = $(OUTDIR)/common.obj $(OUTDIR)/main.obj $(OUTDIR)/morse_player.obj
+
+LIBS = "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" "dsound.lib" "winmm.lib" "winmm.lib"
+
 CC = "C:\"Microsoft Visual Studio 14.0"\VC\bin\cl.exe"
 LINK = "C:\"Microsoft Visual Studio 14.0"\VC\bin\link.exe"
-LIBS =	"kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib"\
-	  	"comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib"\
-	  	"uuid.lib" "odbc32.lib" "odbccp32.lib"\
-	   	winmm.lib
 RM = del
 
-CPPFLAGS = /nologo /W4 /Zi /DUNICODE /D_UNICODE /Fo"$(OUTDIR)\\" /MT
-LFLAGS = /NOLOGO /DEBUG /MAP:$(PROGRAM).map /PDB:$(PROGRAM).pdb $(LIBS)\
-	/ERRORREPORT:NONE\
-	/SUBSYSTEM:WINDOWS\
-	/PDB:"$(OUTDIR)\$(PROGRAM).pdb"
+#Debug build
+CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /I"C:\projects" /TP /EHsc /Fd"$(OUTDIR)/" /D"_CRT_SECURE_NO_WARNINGS" /D"DIRECTINPUT_VERSION=0x0800"
+LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"C:\projects" /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)" /DEBUG
 
-ALL: $(OUTDIR)\$(PROGRAM).exe
+#Release build
+#CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /I"C:\projects" /EHsc /Fd"$(OUTDIR)/" /D"_CRT_SECURE_NO_WARNINGS" /D"DIRECTINPUT_VERSION=0x0800" /D"NODEBUG"
+#LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"C:\projects" /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)"
 
-CLEAN:
-	$(RM) $(OUTDIR)\*
+ALL: $(TARGET)
 
-$(OUTDIR)\$(PROGRAM).exe: $(OBJS)
-	$(LINK) $(LFLAGS) /OUT:$(OUTDIR)\$(PROGRAM).exe $(OBJS)
+$(TARGET): $(OBJS) $(RESFILE)
+	$(LINK) $(LFLAGS) /OUT:$(TARGET) $(OBJS) $(RESFILE)
 
-.cpp{$(OUTDIR)}.obj:
-	$(CC) $(CPPFLAGS) /c $<
+.cc{$(OUTDIR)}.obj:
+	$(CC) $(CPPFLAGS) /Fo"$(OUTDIR)\\" /c $<

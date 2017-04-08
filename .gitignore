@@ -1,101 +1,41 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
 # ========================
 # mysetting
 # ========================
-
-#visual studio files
-*.ico
-*.vcxproj
-*.vcxproj.filters
-*.map
-*.pdb
-*~
-~*
-
-*.log
-*.res
-*.tlog
-*.obj
-*.d
+stg_20170106/
 *.exe
-*.idb
-*.pdb
 *.ilk
-*.pdb
-
-#debug info
-Release
-Debug
-*.pdb
 *.map
-
-#heavy files
 *.o
-*.d
 *.obj
+*.pdb
+*.d
 *.exe
 *.out
-
-#Not important data
 *.stackdump
-temp
-
-#sound data
-*.midi
-*.wav
-
-#graphical data
-*.jpg
-*.png
-*.gif
+*.ico
+*.sdf
+*.res
+*.sln
+*.vs
 *.bmp
-*.dds
-*.xcf
+*.opendb
+*.bak
 
-#sagyou data
-tags
-html
-Log.txt
+*.wav
+*.mp3
+*.midi
+*.mid
+
+# *.dat
+# *.csv
+# *.pdf
+# *.png
+# *.jpg
+
+# ========================
+# Middle output files
+# ========================
+~*
+*~
+'*
+*'

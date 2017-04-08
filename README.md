@@ -1,20 +1,26 @@
-﻿2016/05/15 mkaminaga
+﻿////////////////////////////////////////
+//      Copyright 2016 mkaminaga      //
+////////////////////////////////////////
 
 cwconv
 ====
-	The command line tool to easily convert command line argument into morse code.
+	Play morse from command line.
 
 Requirement
 ====
-	Windows CL compiler (Visual C++ compiler).
+  Windows PC and suitable compiler (In my case, Visual C++, CL compiler).
+  Windows SDK.
 
 Install
 ====
-	1. Setup build environment to use cl compiler.
-		You have to get cl compiler by installing Visual studio Community 2015 and Windows SDK.
+	1. Setup build environment to use compiler.
+		You have to setup environment for command line build.
 
 	2. Set path collectly.
-		There are four environmental variables related to Visual studio community and Windows SDK; PATH, LIB, LIBPATH and INCLUDE. These pathes are used by cl.exe, nmake.exe and link.exe.
+		Set environmental variables (PATH, LIB, LIBPATH and INCLUDE) for Windows SDK.
 
-	3. Actually build this program.
-		In command line or in IDE, build main.cpp. In commandline build with makefile, the binary will generated under build/.
+  3. Fix makefile
+    Fix variable "CC" and "LINK" to your environment.
+
+	4. Build this program in command line.
+		Build cwconv !
