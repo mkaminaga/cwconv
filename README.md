@@ -16,7 +16,7 @@ Install
   You have to setup environment for command line build.<br>
 
   2. Set path<br>
-  Set environmental variables (PATH, LIB, LIBPATH and INCLUDE) for Windows SDK.<br>
+  Set environmental variables (PATH, LIB, LIBPATH and INCLUDE) for SDKs.<br>
 
   3. Fix makefile<br>
   Fix variable "CC" and "LINK" to your environment.<br>
@@ -29,7 +29,7 @@ Usage
   options:<br>
   -help:     Show help<br>
   -nowindow: Not show output console<br>
-  -nosound:  Not play midi sound<br>
+  -nosound:  Not play sound<br>
   -wpm:      Set WPM, default is 20<br>
   -paris:    Set PARIS, default is 20<br>
   -s:        Input string to be morse signal<br>
