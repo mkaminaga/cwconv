@@ -21,10 +21,10 @@ void MorsePlayer::ShowSimbol(int morse_code) {
   // Exception.
   switch (morse_code) {
     case MORSE_SPACE:
-      wcscpy_s(str_buf, kStrLen, L" ");
+      wprintf(L" ");
       return;
     case MORSE_UNKNOWN:
-      wcscpy_s(str_buf, kStrLen, L"<?>");
+      wprintf(L"<?>");
       return;
     default:
       break;
@@ -54,8 +54,9 @@ void MorsePlayer::PlaySound(int morse_code) {
   // Exception.
   switch (morse_code) {
     case MORSE_SPACE:
-    case MORSE_UNKNOWN:
-      Sleep(dot_len_ * 6);  // Time adjustment
+      Sleep(dot_len_);  // Blank time
+      return;
+    case MORSE_UNKNOWN:  // No sound
       return;
     default:
       break;
