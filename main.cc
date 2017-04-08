@@ -137,7 +137,6 @@ HWND CreateInvisibleWindow(HINSTANCE instance_handle) {
 int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
                     LPTSTR cmd_lind, int cmd_show) {
   // Prevent warnings for unreferenced parameters.
-  UNREFERENCED_PARAMETER(instance_handle);
   UNREFERENCED_PARAMETER(not_used);
   UNREFERENCED_PARAMETER(cmd_lind);
   UNREFERENCED_PARAMETER(cmd_show);
