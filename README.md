@@ -2,7 +2,7 @@
 
 cwconv
 ====
-  Play morse sound from command line string.<br>
+  Play morse from command line.<br>
 
 ## Description
   This tool helps you to practice morse signal decoding.<br>
