@@ -73,7 +73,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
             break;
           case OPTION_WPM:  // Same as OPTION_PARIS
           case OPTION_PARIS:
-            /* wpm (paris) -> dot millis */
+            // wpm (paris) -> dot millis
             morse_player.dot_len_ = 60000 / (_wtoi(__wargv[i + 1]) * 50);
             break;
           case OPTION_STRING:
