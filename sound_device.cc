@@ -1,8 +1,12 @@
 // @file sound_device.cc
 // @brief Sound device class
 // @author Mamoru Kaminaga
-// @date 2017-04-08 20:22:10
-// Copyright 2017 Mamoru Kaminaga
+// @date 2016-05-15 12:08:31
+//
+// Copyright (c) 2016 Mamoru Kaminaga
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
 #include "sound_device.h"
 #include <wchar.h>
 #include <windows.h>

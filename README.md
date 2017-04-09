@@ -1,4 +1,4 @@
-﻿Copyright 2016 Mamoru Kaminaga<br>
+﻿Copyright (c) 2016 Mamoru Kaminaga<br>
 
 cwconv
 ====
@@ -53,3 +53,6 @@ cwconv
   `cwconv.exe -nosound -s Hello world`<br>
   * Play "Hello world" sound without simbol<br>
   `cwconv.exe -nowindow -s Hello world`<br>
+
+## Licence
+  This software is released under the MIT License, see LICENSE.

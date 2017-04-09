@@ -1,4 +1,12 @@
-Copyright 2017 Mamoru Kaminaga
+// @file about_sound_file.txt
+// @brief Wave file description.
+// @author Mamoru Kaminaga
+// @date 2016-05-15 12:08:31
+//
+// Copyright (c) 2016 Mamoru Kaminaga
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
 
 sin_wave.wav is monaural wav file.
 Simple sine wave with frequency 700 Hz.

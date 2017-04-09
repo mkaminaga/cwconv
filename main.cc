@@ -2,7 +2,11 @@
 // @brief Morse code generator
 // @author Mamoru Kaminaga
 // @date 2016-05-15 12:08:31
-// Copyright 2016 Mamoru Kaminaga
+//
+// Copyright (c) 2016 Mamoru Kaminaga
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
 #include <wchar.h>
 #include <windows.h>
 #include <stdio.h>
