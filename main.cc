@@ -43,7 +43,7 @@ const wchar_t kHelp[ELEMNUM_OPTIONS][64] = {
 bool help_required = false;
 bool no_console = false;
 bool no_sound = false;
-bool play_command_line_string = false;
+bool string_is_set = false;
 int string_argc_offset = 0;
 namespace mk {
 void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor) {
@@ -171,7 +171,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
             morse_player.dot_ms_ = 60000 / (_wtoi(__wargv[i + 1]) * 50);
             break;
           case OPTION_STRING:
-            play_command_line_string = true;
+            string_is_set = true;
             string_argc_offset = i + 1;
           default:
             break;
@@ -212,7 +212,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
     }
   }
   // String error proc.
-  if (play_command_line_string == false) {
+  if (string_is_set == false) {
     if (no_console) {
       mk::DialogError(L"No input string");
       return -1;
