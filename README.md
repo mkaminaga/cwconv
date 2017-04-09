@@ -44,7 +44,7 @@ cwconv
   `-nosound` Not play sound<br>
   `-wpm` Set WPM (default is 20)<br>
   `-paris` Set PARIS (default is 20)<br>
-  `-s` Play command line text<br>
+  `-s` Play command line string<br>
   `-f` Play file text<br>
 
 ## Example
@@ -57,5 +57,5 @@ cwconv
   * Play "Hello world" sound without simbol<br>
   `cwconv.exe -nowindow -s Hello world`<br>
 
-## Licence
+## License
   This software is released under the MIT License, see LICENSE.

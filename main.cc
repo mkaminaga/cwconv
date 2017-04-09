@@ -41,7 +41,7 @@ const wchar_t kHelp[ELEMNUM_OPTIONS][64] = {
   L"Not play sound",                   // OPTION_NOSOUND
   L"Set WPM (default is 20)",          // OPTION_WPM
   L"Set PARIS (default is 20)",        // OPTION_PARIS
-  L"Play command line text",           // OPTION_STRING
+  L"Play command line string",           // OPTION_STRING
   L"Play file text",                   // OPTION_FILE
 };
 bool help_required = false;
