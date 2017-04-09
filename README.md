@@ -48,7 +48,7 @@ cwconv
 
 ## Example
   * Say "Hello world" with 30 WPM<br>
-  `cwconv.exe -paris 30 -s Hello world`<br>
+  `cwconv.exe -wpm 30 -s Hello world`<br>
   * Show "Hello world" simbol without playing sound<br>
   `cwconv.exe -nosound -s Hello world`<br>
   * Play "Hello world" sound without simbol<br>

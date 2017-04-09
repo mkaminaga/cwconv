@@ -14,6 +14,7 @@
 #include "common.h"
 #include "sound_device.h"
 // Morse data table, 1 stands for short sound, 3 stands for long sound.
+#define DEFAULT_DOT_MS  (60)  // 20 WPM (PARIS)
 #define SHORT_VOWEL     (1)
 #define LONG_VOWEL      (3)
 #define MORSE_A         (0x13)
@@ -66,7 +67,7 @@ namespace mk {
 class MorsePlayer {
  public:
   int dot_ms_;
-  explicit MorsePlayer(SoundDevice* sound_device) : dot_ms_(60),
+  explicit MorsePlayer(SoundDevice* sound_device) : dot_ms_(DEFAULT_DOT_MS),
       sound_device_(sound_device), wave_data_id_(MORSE_PLAYER_WAV_DATA_ID) {}
   ~MorsePlayer() {}
   bool Initialize();

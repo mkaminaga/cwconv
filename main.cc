@@ -15,6 +15,7 @@
 #include "resource.h"
 #include "sound_device.h"
 #define WINDOW_STYLE    (WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX)
+namespace {
 enum OPTIONS {
   OPTION_HELP = 0,
   OPTION_STRING,
@@ -45,6 +46,7 @@ bool no_console = false;
 bool no_sound = false;
 bool string_is_set = false;
 int string_argc_offset = 0;
+}  // namespace
 namespace mk {
 void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor) {
   int morse_code = 0;
@@ -96,7 +98,7 @@ void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor) {
   }
   // Morse shown to console.
   if (!no_console) morse_player->ShowSimbol(morse_code);
-  // Sound played by device.
+  // Sound played by sound_device.
   if (!no_sound) morse_player->PlaySound(morse_code);
 }
 // Void callback function.
@@ -115,7 +117,7 @@ LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp) {
   return DefWindowProc(wnd, msg, wp, lp);
 }
 // Window is required to set icom on win32 application.
-HWND CreateInvisibleWindow(HINSTANCE instance_handle) {
+HWND GetWindowHandle(HINSTANCE instance_handle) {
   WNDCLASSEX wcex;
   // Window class registered.
   memset(&wcex, 0, sizeof(wcex));
@@ -144,13 +146,17 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
   UNREFERENCED_PARAMETER(not_used);
   UNREFERENCED_PARAMETER(cmd_lind);
   UNREFERENCED_PARAMETER(cmd_show);
-  //
-  HWND window_handle = mk::CreateInvisibleWindow(instance_handle);
-  mk::SoundDevice device(window_handle);
-  device.Initialize();
-  mk::MorsePlayer morse_player(&device);
-  morse_player.Initialize();
-  morse_player.dot_ms_ = 60;
+  // Window handle aquired.
+  const HWND window_handle = mk::GetWindowHandle(instance_handle);
+  // Sound device object setup.
+  mk::SoundDevice sound_device(window_handle);
+  if (!sound_device.Initialize()) return -1;
+  // Morse player object setup.
+  mk::MorsePlayer morse_player(&sound_device);
+  if (!morse_player.Initialize()) {
+    sound_device.Finalize();
+    return -1;
+  }
   // Command line args proc.
   for (int i = 1; i < __argc; ++i) {
     for (int j = 0; j < ELEMNUM_OPTIONS; ++j) {
@@ -202,7 +208,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
       mk::DialogError(L"You must not set -nowindow option to show help");
       return 0;
     } else {
-      wprintf(APP_NAME);
+      wprintf(L"%s\n", APP_NAME);
       wprintf(L"\n");
       wprintf(L"options:\n");
       for (int i = 0; i < ELEMNUM_OPTIONS; ++i) {
@@ -242,7 +248,7 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
     FreeConsole();
   }
   morse_player.Finalize();
-  device.Finalize();
+  sound_device.Finalize();
   return 0;
 
 ERROR_EXIT:
@@ -253,6 +259,6 @@ ERROR_EXIT:
     FreeConsole();
   }
   morse_player.Finalize();
-  device.Finalize();
+  sound_device.Finalize();
   return -1;
 }
