@@ -182,8 +182,9 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
   // Console proc.
   if (!no_console) {
     if (!AttachConsole(ATTACH_PARENT_PROCESS)) AllocConsole();
-    freopen("CON", "r", stdin);
-    freopen("CON", "w", stdout);
+    FILE* not_used_fp = NULL;
+    freopen_s(&not_used_fp, "CON", "r", stdin);
+    freopen_s(&not_used_fp, "CON", "w", stdout);
   }
   // Argument num error check proc.
   if (__argc <= 1) {
