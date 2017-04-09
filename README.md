@@ -44,11 +44,14 @@ cwconv
   `-nosound` Not play sound<br>
   `-wpm` Set WPM (default is 20)<br>
   `-paris` Set PARIS (default is 20)<br>
-  `-s` Set text<br>
+  `-s` Play command line text<br>
+  `-f` Play file text<br>
 
 ## Example
   * Say "Hello world" with 30 WPM<br>
   `cwconv.exe -wpm 30 -s Hello world`<br>
+  * Read content of test.txt with 30 WPM<br>
+  `cwconv.exe -wpm 30 -f text.txt`<br>
   * Show "Hello world" simbol without playing sound<br>
   `cwconv.exe -nosound -s Hello world`<br>
   * Play "Hello world" sound without simbol<br>

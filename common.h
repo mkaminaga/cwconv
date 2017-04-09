@@ -9,10 +9,12 @@
 // http://opensource.org/licenses/mit-license.php
 #ifndef COMMON_H_
 #define COMMON_H_
+#include <stdarg.h>
+#include <stdio.h>
 #define APP_NAME                  L"cwconv"
 #define MORSE_PLAYER_WAV_DATA_ID  (0)
 namespace mk {
-void PrintError(const wchar_t* msg);
-void DialogError(const wchar_t* msg);
+void PrintError(const wchar_t* format, ...);
+void DialogError(const wchar_t* format, ...);
 }  // namespace mk
 #endif  // COMMON_H_

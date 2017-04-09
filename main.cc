@@ -18,34 +18,39 @@
 namespace {
 enum OPTIONS {
   OPTION_HELP = 0,
-  OPTION_STRING,
   OPTION_NOWINDOW,
   OPTION_NOSOUND,
   OPTION_WPM,
   OPTION_PARIS,
+  OPTION_STRING,
+  OPTION_FILE,
   ELEMNUM_OPTIONS, // Array size.
 };
 const wchar_t kOptions[ELEMNUM_OPTIONS][16] = {
   L"-help",        // OPTION_HELP
-  L"-s",           // OPTION_STRING
   L"-nowindow",    // OPTION_NOWINDOW
   L"-nosound",     // OPTION_NOSOUND
   L"-wpm",         // OPTION_WPM
   L"-paris",       // OPTION_PARIS
+  L"-s",           // OPTION_STRING
+  L"-f",           // OPTION_FILE
 };
 const wchar_t kHelp[ELEMNUM_OPTIONS][64] = {
   L"Show help",                        // OPTION_HELP
-  L"Set text",                         // OPTION_STRING
   L"Not show output console",          // OPTION_NOWINDOW
   L"Not play sound",                   // OPTION_NOSOUND
   L"Set WPM (default is 20)",          // OPTION_WPM
   L"Set PARIS (default is 20)",        // OPTION_PARIS
+  L"Play command line text",           // OPTION_STRING
+  L"Play file text",                   // OPTION_FILE
 };
 bool help_required = false;
 bool no_console = false;
 bool no_sound = false;
-bool string_is_set = false;
+bool string_is_given = false;
+bool file_is_given = false;
 int string_argc_offset = 0;
+const wchar_t* file_name = NULL;
 }  // namespace
 namespace mk {
 void ShowAndPlay(MorsePlayer* morse_player, wchar_t charactor) {
@@ -177,8 +182,13 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
             morse_player.dot_ms_ = 60000 / (_wtoi(__wargv[i + 1]) * 50);
             break;
           case OPTION_STRING:
-            string_is_set = true;
+            string_is_given = true;
             string_argc_offset = i + 1;
+            break;
+          case OPTION_FILE:
+            file_is_given = true;
+            file_name = __wargv[i + 1];
+            break;
           default:
             break;
         }
@@ -217,29 +227,58 @@ int WINAPI wWinMain(HINSTANCE instance_handle, HINSTANCE not_used,
       goto ERROR_EXIT;
     }
   }
-  // String error proc.
-  if (string_is_set == false) {
+  // Morse play proc.
+  if (!string_is_given && !file_is_given) {
     if (no_console) {
-      mk::DialogError(L"No input string");
+      mk::DialogError(L"No source specifide, use -s or -f option");
       return -1;
     } else {
-      mk::PrintError(L"No input string");
+      mk::PrintError(L"No source specifide, use -s or -f option");
       goto ERROR_EXIT;
     }
-  }
-  // Morse generation proc.
-  int length = 0;
-  for (int i = string_argc_offset; i < __argc; ++i) {
-    length = wcslen(__wargv[i]);
-    for (int j = 0; j < length; ++j) {
-      mk::ShowAndPlay(&morse_player, __wargv[i][j]);
-      mk::ShowAndPlay(&morse_player, L' ');
+  } else if (string_is_given && file_is_given) {
+    if (no_console) {
+      mk::DialogError(L"-s and -f cannot be set at once");
+      return -1;
+    } else {
+      mk::PrintError(L"-s and -f cannot be set at once");
+      goto ERROR_EXIT;
     }
-    if (i != (__argc - 1)) {  // Word separator.
-      mk::ShowAndPlay(&morse_player, L' ');
-      mk::ShowAndPlay(&morse_player, L' ');
-      mk::ShowAndPlay(&morse_player, L' ');
+  } else if (string_is_given) {
+    // String given from command line played.
+    int length = 0;
+    for (int i = string_argc_offset; i < __argc; ++i) {
+      length = wcslen(__wargv[i]);
+      for (int j = 0; j < length; ++j) {
+        mk::ShowAndPlay(&morse_player, __wargv[i][j]);
+        mk::ShowAndPlay(&morse_player, L' ');
+      }
+      if (i != (__argc - 1)) {  // Word separator.
+        mk::ShowAndPlay(&morse_player, L' ');
+        mk::ShowAndPlay(&morse_player, L' ');
+        mk::ShowAndPlay(&morse_player, L' ');
+      }
     }
+  } else {
+    // Text in file played.
+    FILE* fp = NULL;
+    _wfopen_s(&fp, file_name, L"r");
+    if (fp == NULL) {
+      if (no_console) {
+        mk::DialogError(L"cannot open file: %s", file_name);
+        return -1;
+      } else {
+        mk::PrintError(L"cannot open file: %s", file_name);
+        goto ERROR_EXIT;
+      }
+    }
+    wchar_t c = fgetwc(fp);
+    while ((c != EOF) && (c != WEOF)) {
+      mk::ShowAndPlay(&morse_player, c);
+      mk::ShowAndPlay(&morse_player, L' ');
+      c = fgetwc(fp);
+    }
+    fclose(fp);
   }
   // Normal exit proc.
   if (!no_console) {
